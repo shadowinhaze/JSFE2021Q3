@@ -103,5 +103,5 @@ dist
 # TernJS port file
 .tern-port
 
-# owner_adds:
-/momentum/*
+#build-name
+/art-quiz
