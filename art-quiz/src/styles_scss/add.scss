@@ -7,13 +7,19 @@
 
 @font-face {
     font-family: 'Gilroy';
+    font-weight: 500;
+    src: url('@fonts/Gilroy-Medium.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Gilroy';
     font-weight: 700;
     src: url('@fonts/Gilroy-Bold.ttf') format('truetype');
 }
 
-
 // ==== VARIABLES ====
 $black: #010101;
+$grey: #A4A4A4;
 $accent: #FFBCA2;
 
 // ==== BREAKPOINT ====
@@ -50,18 +56,23 @@ $accent: #FFBCA2;
 }
 
 // ==== DEFAULT FONT ====
-
 @mixin dFont {
     font-family: 'Gilroy';
     font-style: normal;
     font-weight: 400;
     letter-spacing: -0.4px;
+    color: white;
+}
+
+@mixin mobSize {
+    font-size: 2.4rem;
+    line-height: 2.8rem;
 }
 
 
 // ==== DEFAULT TRANSITION ====
 @mixin dTrans {
-    transition: all .5s ease;
+    transition: all .3s ease;
 }
 
 

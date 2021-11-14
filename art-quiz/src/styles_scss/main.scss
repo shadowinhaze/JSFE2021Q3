@@ -1,6 +1,7 @@
 @import "~normalize.css";
 @import "./add";
 @import "./pages/main_screen";
+@import "./pages/setting_screen";
 // @import "./settings";
 
 
@@ -9,32 +10,70 @@
     margin: 0;    
 }
 
+ul {
+    list-style-type: none;
+    padding-left: 0;
+}
+
 html {
     font-size: 62.5%;
 }
 
+
+//==== BODY ====
 body {
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
-    background: url('@img/main-screen-bg.jpg') center no-repeat;
-    background-size: cover;
     height: 100vh;
     padding: 2rem;
     @include dFont;
-    &.main-screen{
-        header {
-            align-self: flex-end;
+
+    &[data-page=main-screen]{
+        background: url('@img/main-screen-bg.jpg') center no-repeat;
+        background-size: cover;
+        .setting-screen__content {
+            display: none;
+        }
+        & > header {
+            .back, .page-title {
+                display: none;
+            }
+            .setting-button {
+                margin-left: auto;
+            }
+        }
+
+        & > main > section { 
+            @include respond(mob) {
+                margin-top: auto;
+            } 
+        }
+    }
+
+    &[data-page=setting-screen] {
+        background: $black;
+        .main-screen__content {
+            display: none;
+        }
+        & > header {
+            @include respond(mob) {
+                .setting-button.close {
+                    visibility: hidden;
+                }
+            }
+        }
+        & > main {
+            @include respond(mob) {
+                margin-top: auto;
+            } 
         }
     }
 
     @include respond(mob) {
         row-gap: 5rem;
-        main {
-            margin-top: auto;
-        }
     }
 
     @include respond(from-tabl) {
@@ -46,6 +85,65 @@ body {
         margin: 0 auto;
         background-position: top 10% center;
     }
+}
+
+//====> HEADER ====
+header {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+//====> HEADER ====
+main {
+    display: flex;
+    height: 100%;
+}
+
+//====> FOOTER ====
+footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    width: 100%;
+    font-size: 1.6rem;
+    color: white;
+
+    #author {
+        text-decoration: none;
+        color: white;
+        @include dTrans;
+        &:hover {
+            color: $accent;
+            text-decoration: underline;
+        }
+        @include respond(from-tabl) {
+            margin-left: auto;
+        }
+    }
+
+    #rss {
+        display: block;
+        background: url('@svg/rs_school_logo.svg') no-repeat;
+        background-size: contain;
+        background-position: center center;
+        width: 6rem;
+        height: 3rem;
+        @include respond(mob) {
+            width: 6rem;
+            height: 3rem;
+        }
+        @include respond(from-tabl) {
+            width: 10rem;
+            height: 5rem;
+        }
+        
+    }
+
+    @include respond(from-tabl) {
+        column-gap: 8rem;
+    }
+
 }
 
 //==== LOGO ====
@@ -115,7 +213,7 @@ body {
 }
 
 //==== BUTTONS ====
-.button {
+button {
     box-sizing: border-box;
     background: none;
     outline: none;
@@ -128,31 +226,72 @@ body {
         align-items: center;
         padding: 1.4rem 1.4rem; 
         width: 26.5rem;
-        border: 0.1rem solid #FFFFFF;
+        border: 0.1rem solid white;
         border-radius: 5rem;
-
         @include dFont;
-        color: white;
-        font-size: 2.4rem;
-        line-height: 2.8rem;
-
-        // @include respond(mob) {
-            
-        // }
-
+        @include mobSize;
         &:hover {
             background: white;
         }
     }
 
-    &.settings-button {
+    &.header-button {
         height: 3rem;
         width: 3rem;
-        background: url('@svg/icons/settings.svg') no-repeat;
-        background-size: contain;
         filter: invert(100%) sepia(0%) saturate(1%) hue-rotate(102deg) brightness(107%) contrast(101%);
         &:hover {
             filter: invert(74%) sepia(9%) saturate(1515%) hue-rotate(327deg) brightness(105%) contrast(104%);
+        }
+    }
+
+    &.setting-button {
+        background: url('@svg/icons/settings.svg') no-repeat;
+        background-size: contain;
+        &.close {
+            background: url('@svg/icons/settings-close.svg') no-repeat;
+            background-size: contain;
+        }
+    }
+
+    &.back {
+        background: url('@svg/icons/back.svg') no-repeat;
+        background-position: center;
+        background-size: contain;
+    }
+
+    &.volume-control {
+        height: 2rem;
+        width: 3rem;
+        filter: invert(70%) sepia(1%) saturate(320%) hue-rotate(318deg) brightness(88%) contrast(86%);
+        &.mute {
+            background: url('@svg/icons/mute.svg') no-repeat;
+            background-size: contain;
+            background-position: left;
+        }
+        &.full {
+            background: url('@svg/icons/volume-full.svg') no-repeat;
+            background-size: contain;
+            background-position: right;
+        }
+        &:hover {
+            filter: invert(74%) sepia(9%) saturate(1515%) hue-rotate(327deg) brightness(105%) contrast(104%);
+        }
+    }
+
+    &.timer-quant-button {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 3.3rem;
+        width: 3.3rem;
+        padding: 0;
+        background: white;
+        border-radius: 50%;
+        font-size: 3.5rem;
+        font-weight: 500;
+        line-height: 0;
+        &:hover {
+            background: $accent;
         }
     }
 
@@ -162,48 +301,102 @@ body {
     }
 }
 
-//==== FOOTER ====
-footer {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
-    width: 100%;
-    font-size: 1.6rem;
-    color: white;
-
-    #author {
-        text-decoration: none;
-        color: white;
-        @include dTrans;
-        &:hover {
-            color: $accent;
-            text-decoration: underline;
-        }
-        @include respond(from-tabl) {
-            margin-left: auto;
-        }
+//==== INPUTS ====
+.range-type-input {
+    -webkit-appearance: none;
+    flex: 1 1 auto;
+    height: 0.3rem;
+    background: linear-gradient(to right, $accent 0%, $accent 50%, $grey 50%, $grey 100%);
+    border-radius: 2rem;
+    &:focus {
+        outline: none;
     }
-
-    #rss {
-        display: block;
-        background: url('@svg/rs_school_logo.svg') no-repeat;
-        background-size: contain;
-        background-position: center center;
-        width: 6rem;
-        height: 3rem;
-        @include respond(mob) {
-            width: 6rem;
-            height: 3rem;
-        }
-        @include respond(from-tabl) {
-            width: 10rem;
-            height: 5rem;
-        }
-        
+    @mixin thumb {
+        box-sizing: border-box;
+        -webkit-appearance: none;
+        width: 1.6rem;
+        height: 1.6rem;
+        border-radius: 50%;
+        cursor: ew-resize;
+        border: none;
+        background: white;
     }
-
-    @include respond(from-tabl) {
-        column-gap: 8rem;
+    &::-webkit-slider-thumb {
+        @include thumb;
     }
-
+    
+    &::-moz-range-thumb {
+        @include thumb;
+    }
+    &:hover {
+        cursor: pointer;
+    }
 }
+
+.switcher-type-input {
+    -webkit-appearance: none;
+    position: relative;
+    outline: none;
+    width: 5rem;
+    height: 2rem;
+    background: $grey;
+    border-radius: 50px;
+    padding: 0.3rem;
+    @include dTrans;
+    
+    &:after {
+        box-sizing: border-box;
+        content: '';
+        position: absolute;
+        top: 50%;
+        // left: 0.4rem;
+        background: white;
+        width: 1.6rem;
+        height: 1.6rem;
+        border-radius: 50%;
+        transform: translateY(-50%);
+        @include dTrans;
+    }
+      
+    &:checked {
+        background: $accent;
+        &:after {
+            right: 0.3rem;
+        }
+    }
+      
+    &:hover {
+        cursor: pointer;
+    }
+}
+
+.default-label {
+    @include dFont;
+    @include mobSize;
+    font-weight: 500;
+}
+
+.number-type-input {
+    all: unset;
+    @include mobSize;
+    -moz-appearance: textfield;
+    text-align: center;
+    width: 7rem;
+    &::-webkit-inner-spin-button {
+        display: none;
+    }
+}
+
+//==== H1-H? ====
+.page-title {
+    @include dFont;
+    @include mobSize;
+    font-weight: 500;
+}
+
+.setting-item-title {
+    font-weight: 700;
+    font-size: 3rem;
+    line-height: 2.8rem;
+}
+
