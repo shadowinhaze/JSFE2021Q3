@@ -13,4 +13,8 @@
     flex-direction: column;
     justify-content: center;
     row-gap: 2rem;
+    @include respond(from-desk) {
+        flex-direction: row;
+        column-gap: 4rem;
+    }
 }

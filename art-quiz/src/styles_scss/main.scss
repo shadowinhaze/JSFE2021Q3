@@ -40,6 +40,12 @@ body {
     @include respond(from-tabl) {
         padding: 3rem;
     }
+
+    @include respond(from-desk) {
+        max-width: 1440px;
+        margin: 0 auto;
+        background-position: top 10% center;
+    }
 }
 
 //==== LOGO ====
@@ -87,6 +93,22 @@ body {
             width: 12rem;
             &:nth-child(2) {
                 left: 6rem;
+            }
+        }
+    }
+
+    @include respond(from-desk) {
+        padding-left: 3.5rem;
+        h1 {
+            font-size: 11.1rem;
+            line-height: 16rem;
+        }
+        span {
+            height: 16rem;
+            width: 16rem;
+            border: 0.26rem solid #FFFFFF;
+            &:nth-child(2) {
+                left: 8rem;
             }
         }
     }
@@ -144,6 +166,7 @@ body {
 footer {
     display: flex;
     justify-content: space-between;
+    align-items: flex-end;
     width: 100%;
     font-size: 1.6rem;
     color: white;
@@ -165,6 +188,7 @@ footer {
         display: block;
         background: url('@svg/rs_school_logo.svg') no-repeat;
         background-size: contain;
+        background-position: center center;
         width: 6rem;
         height: 3rem;
         @include respond(mob) {

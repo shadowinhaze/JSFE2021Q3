@@ -18,7 +18,13 @@ $accent: #FFBCA2;
 
 // ==== BREAKPOINT ====
 @mixin respond ($breakpoint) {
-    @if $breakpoint==desk {
+    @if $breakpoint==from-desk {
+        @media only screen and (min-width: 1440px) {
+            @content;
+        }
+    }
+
+    @if $breakpoint==to-desk {
         @media only screen and (max-width: 1440px) {
             @content;
         }
