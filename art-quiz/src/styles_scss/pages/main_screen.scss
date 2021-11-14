@@ -1,0 +1,13 @@
+.main-screen__content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    row-gap: 3.2rem;
+}
+
+.button-block {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    row-gap: 2rem;
+}

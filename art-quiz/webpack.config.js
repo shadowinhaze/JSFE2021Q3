@@ -18,7 +18,8 @@ const optimization = () => {
     if (isProd) {
         config.minimizer = [
             new OptimizeCssAssetsWebpackPlugin(),
-            new TerserWebpackPlugin()
+            new TerserWebpackPlugin(),
+
         ]
     }
     return config
@@ -57,6 +58,7 @@ module.exports = {
             '@': path.resolve(__dirname, 'src'),
             '@scss': path.resolve(__dirname, 'src/styles_scss'),
             '@img': path.resolve(__dirname, 'src/assets/img'),
+            '@fonts': path.resolve(__dirname, 'src/assets/fonts'),
             '@modules': path.resolve(__dirname, 'src/modules'),
             '@svg': path.resolve(__dirname, 'src/assets/svg'),
             // '@fonts': path.resolve(__dirname, 'src/assets/fonts'),
@@ -85,7 +87,7 @@ module.exports = {
         //             to: path.resolve(__dirname, 'momentum/assets/sounds')
         //         }
         //     ]
-        // })
+        // }),
     ],
     module: {
         rules: [

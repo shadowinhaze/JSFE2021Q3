@@ -1,0 +1,55 @@
+// ==== FONT ====
+@font-face {
+    font-family: 'Gilroy';
+    font-weight: 400;
+    src: url('@fonts/Gilroy-Regular.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Gilroy';
+    font-weight: 700;
+    src: url('@fonts/Gilroy-Bold.ttf') format('truetype');
+}
+
+
+// ==== VARIABLES ====
+$black: #010101;
+$accent: #FFBCA2;
+
+// ==== BREAKPOINT ====
+@mixin respond ($breakpoint) {
+    @if $breakpoint==desk {
+        @media only screen and (max-width: 1440px) {
+            @content;
+        }
+    }
+
+    @if $breakpoint==tablet {
+        @media only screen and (max-width: 768px) {
+            @content;
+        }
+    } 
+
+    @if $breakpoint==mob {
+        @media only screen and (max-width: 360px) {
+            @content;
+        }
+    } 
+}
+
+// ==== DEFAULT FONT ====
+
+@mixin dFont {
+    font-family: 'Gilroy';
+    font-style: normal;
+    font-weight: 400;
+    letter-spacing: -0.4px;
+}
+
+
+// ==== DEFAULT TRANSITION ====
+@mixin dTrans {
+    transition: all .5s ease;
+}
+
+
