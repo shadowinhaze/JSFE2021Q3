@@ -24,11 +24,17 @@ $accent: #FFBCA2;
         }
     }
 
-    @if $breakpoint==tablet {
+    @if $breakpoint==from-tabl {
+        @media only screen and (min-width: 768px) {
+            @content;
+        }
+    }
+
+    @if $breakpoint==tabl {
         @media only screen and (max-width: 768px) {
             @content;
         }
-    } 
+    }
 
     @if $breakpoint==mob {
         @media only screen and (max-width: 360px) {
