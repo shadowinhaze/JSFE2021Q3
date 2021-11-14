@@ -64,6 +64,12 @@ body {
                     visibility: hidden;
                 }
             }
+            @include respond(from-mob) {
+                column-gap: 3rem;
+                .page-title {
+                    margin-right: auto;
+                }
+            }
         }
         & > main {
             @include respond(mob) {

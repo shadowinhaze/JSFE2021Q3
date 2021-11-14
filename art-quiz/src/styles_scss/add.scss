@@ -48,6 +48,12 @@ $accent: #FFBCA2;
         }
     }
 
+    @if $breakpoint==from-mob {
+        @media only screen and (min-width: 360px) {
+            @content;
+        }
+    } 
+
     @if $breakpoint==mob {
         @media only screen and (max-width: 360px) {
             @content;
