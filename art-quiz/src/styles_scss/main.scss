@@ -3,7 +3,6 @@
 @import "./pages/main_screen";
 @import "./pages/setting_screen";
 @import "./pages/categories_screen";
-// @import "./settings";
 
 
 //==== BASE ====
@@ -95,7 +94,7 @@ body {
     &[data-page=categories-screen] {
         padding: 6rem;
         background: $black;
-        .setting-screen__content, .main-screen__content, .footer-creds {
+        .setting-screen__content, .main-screen__content {
             display: none;
         } 
         & > header {
@@ -105,7 +104,11 @@ body {
             @include respond(from-tabl) {
                 margin-bottom: 7rem;
             }
-        }        
+        }
+        @include respond(mob) {
+            padding: 1.6rem;
+        } 
+              
     }
 
     @include respond(mob) {
@@ -128,25 +131,31 @@ header {
     justify-content: space-between;
     align-items: center;
     width: 100%;
-}
 
-.header-menu {
-    display: flex;
-    column-gap: 4rem;
-    &__link {
-        font-size: 1.8rem;
-        line-height: 1.8rem;
-        font-weight: 500;
-        color: white;
-        transition: all .1s ease;
-        &:hover {
-            color: $accent;
-            font-weight: 700;
+    .header-menu {
+        display: flex;
+        column-gap: 4rem;
+        &__link {
+            font-size: 1.8rem;
+            line-height: 1.8rem;
+            font-weight: 500;
+            color: white;
+            transition: all .1s ease;
+            &:hover {
+                color: $accent;
+                font-weight: 700;
+            }
+        }
+        @include respond(mob) {
+            display: none;
         }
     }
+
 }
 
-//====> HEADER ====
+
+
+//====> MAIN ====
 main {
     display: flex;
     width: 100%;
@@ -196,6 +205,10 @@ footer {
 
         @include respond(from-tabl) {
             column-gap: 8rem;
+        }
+
+        @include respond(mob) {
+            display: none;
         }
     }
 
@@ -313,23 +326,29 @@ footer {
         }
     }
     @include respond(from-tabl) {
-        padding-left: 2.1rem;
+        padding-left: 2.3rem;
         h1 {
             font-size: 8rem;
             line-height: 11.6rem;
         }
-        span {
+        .circle {
             height: 12rem;
             width: 12rem;
             &:nth-child(2) {
                 left: 6rem;
             }
         }
-
         &.accent {
             h1 {
                 font-size: 4.2rem;
                 line-height: 6rem;
+            }
+            .circle {
+                height: 6rem;
+                width: 6rem;
+                &:nth-child(2) {
+                    left: 3rem;
+                }
             }
         }
     }
@@ -340,12 +359,18 @@ footer {
             font-size: 11.1rem;
             line-height: 16rem;
         }
-        span {
+        .circle {
             height: 16rem;
             width: 16rem;
             border: 0.26rem solid #FFFFFF;
             &:nth-child(2) {
                 left: 8rem;
+            }
+        }
+        &.accent {
+            padding-left: 1.3rem;
+            .circle {
+                border-width: 0.1rem;
             }
         }
     }
@@ -529,6 +554,9 @@ button {
     }
     @include respond(tabl) {
         font-size: 3.6rem;
+    }
+    @include respond(from-tabl) {
+        font-size: 4.6rem;
     }
 }
 
