@@ -6,18 +6,25 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Art-Quize</title>
 </head>
-<body data-page="setting-screen">
+<body data-page="categories-screen">
+  <!-- main-screen -->
   <!-- setting-screen -->
+  <!-- categories-screen -->
   <header>
+    <div class="logo accent">
+      <span class="circle"></span>
+      <span class="circle"></span>
+      <h1><span>Art</span> Quiz</h1>
+    </div>
     <button class="header-button back"></button>
     <h2 class="page-title">Settings</h2>
-    <button class="header-button setting-button close" id="settings"></button>
+    <button class="header-button setting-button" id="settings"></button>
   </header>
   <main>
     <section class="main-screen__content">
       <div class="logo light">
-        <span></span>
-        <span></span>
+        <span class="circle"></span>
+        <span class="circle"></span>
         <h1>Art Quiz</h1>
       </div>
       <div class="button-block">
@@ -53,11 +60,49 @@
         </li>
       </ul>
     </section>
+    <section class="categories-screen__content">
+      <h2 class="page-title">Categories</h2>
+      <div class="category-collection">
+        <div class="category-card played">
+          <div class="category-card__name">Portrait</div>
+          <div class="category-card__progress">
+            5/10
+          </div>
+          <div class="category-card__layout" style="background-image: url(./assets/img/examp/examp1.png);"></div>
+          <div class="category-card__play-again-badge"><span></span> Play again</div>
+        </div>
+        <div class="category-card unplayed">
+          <div class="category-card__name">Still life</div>
+          <div class="category-card__progress"></div>
+          <div class="category-card__layout" style="background-image: url(./assets/img/examp/examp2.png);"></div>
+          <div class="category-card__play-again-badge"><span></span> Play again</div>
+        </div>
+        <div class="category-card unplayed">
+          <div class="category-card__name">Impressionism</div>
+          <div class="category-card__progress"></div>
+          <div class="category-card__layout" style="background-image: url(./assets/img/examp/examp2.png);"></div>
+          <div class="category-card__play-again-badge"><span></span> Play again</div>
+        </div>
+        <div class="category-card played">
+          <div class="category-card__name">Avant-garde</div>
+          <div class="category-card__progress">
+            9/10
+          </div>
+          <div class="category-card__layout" style="background-image: url(./assets/img/examp/examp2.png);"></div>
+          <div class="category-card__play-again-badge"><span></span> Play again</div>
+        </div>
+      </div>
+    </section>
   </main>
   <footer>
     <a href="https://github.com/rolling-scopes-school" target="_blank" id="rss"></a>
     <a href="https://github.com/shadowinhaze" target="_blank" id="author">@shadowinhaze</a>
     <p>2021</p>
+    <div class="fixed-mobile-menu">
+      <a href="#" class="fixed-mobile-menu__link" id="home-link">Home</a>
+      <a href="#" class="fixed-mobile-menu__link" id="cat-link">Categories</a>
+      <a href="#" class="fixed-mobile-menu__link" id="score-link">Score</a>
+    </div>
   </footer>
 </body>
 </html>

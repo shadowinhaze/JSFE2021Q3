@@ -2,6 +2,7 @@
 @import "./add";
 @import "./pages/main_screen";
 @import "./pages/setting_screen";
+@import "./pages/categories_screen";
 // @import "./settings";
 
 
@@ -34,9 +35,11 @@ body {
     &[data-page=main-screen]{
         background: url('@img/main-screen-bg.jpg') center no-repeat;
         background-size: cover;
+
         .setting-screen__content {
             display: none;
         }
+
         & > header {
             .back, .page-title {
                 display: none;
@@ -51,6 +54,10 @@ body {
                 margin-top: auto;
             } 
         }
+
+        @include respond(from-tabl) {
+            background-position: top 10% center;
+        }
     }
 
     &[data-page=setting-screen] {
@@ -59,6 +66,9 @@ body {
             display: none;
         }
         & > header {
+            .logo {
+                display: none;
+            }
             @include respond(mob) {
                 .setting-button.close {
                     visibility: hidden;
@@ -78,6 +88,24 @@ body {
         }
     }
 
+    &[data-page=categories-screen] {
+        background: $black;
+        .setting-screen__content, .main-screen__content {
+            display: none;
+        } 
+        & > header {
+            .back, .page-title {
+                display: none;
+            }
+        }
+        & > footer {
+            .fixed-mobile-menu {
+                display: flex;
+            }
+        }
+        
+    }
+
     @include respond(mob) {
         row-gap: 5rem;
     }
@@ -89,7 +117,6 @@ body {
     @include respond(from-desk) {
         max-width: 1440px;
         margin: 0 auto;
-        background-position: top 10% center;
     }
 }
 
@@ -103,6 +130,7 @@ header {
 //====> HEADER ====
 main {
     display: flex;
+    width: 100%;
     height: 100%;
 }
 
@@ -146,6 +174,69 @@ footer {
         
     }
 
+    .fixed-mobile-menu {
+        box-sizing: border-box;
+        position: fixed;
+
+        display: none;
+        justify-content: space-around;
+        align-items: flex-end;
+
+        bottom: 0;
+        left: 0;
+
+        height: 7.5rem;
+        width: 100%;
+        padding-bottom: 1.3rem;
+
+        background: $black;
+        border-radius: 2rem 2rem 0px 0px;
+        border: 0.1rem solid white;
+        &__link {
+            position: relative;
+            text-decoration: none;
+            @include dFont;
+            font-weight: 500;
+            font-size: 1.2rem;
+            line-height: 1.8rem;
+            &::before {
+                content: '';
+                position: absolute;
+                top: -150%;
+                left: 50%;
+                transform: translateX(-50%);
+                height: 2rem;
+                width: 2rem;
+                @include toWhite;
+                background-position: center;
+                background-size: contain;
+                background-repeat: no-repeat;
+            }
+            &#home-link {
+                &::before {
+                    background-image: url('@svg/icons/menu/home.svg');
+                }
+            }
+            &#cat-link {
+                &::before {
+                    background-image: url('@svg/icons/menu/cat.svg');
+                }
+            }
+            &#score-link {
+                &::before {
+                    background-image: url('@svg/icons/menu/score.svg');
+                }
+            }
+            &:hover {
+                color: $accent;
+                text-shadow: 0 0 0.1rem $accent;
+                &::before {
+                    filter: invert(74%) sepia(9%) saturate(1515%) hue-rotate(327deg) brightness(105%) contrast(104%);
+                }
+            }
+        }
+    }
+
     @include respond(from-tabl) {
         column-gap: 8rem;
     }
@@ -168,7 +259,7 @@ footer {
         margin: 0;
     }
 
-    span {
+    .circle {
         position: absolute;
         top: 0;
         left: 0;
@@ -185,6 +276,15 @@ footer {
 
     &.light {
         color: white;
+    }
+
+    &.accent {
+        h1 {
+            z-index: 2;
+            span {
+                color: $accent;
+            }
+        }
     }
     @include respond(from-tabl) {
         padding-left: 2.5rem;
@@ -244,10 +344,7 @@ button {
     &.header-button {
         height: 3rem;
         width: 3rem;
-        filter: invert(100%) sepia(0%) saturate(1%) hue-rotate(102deg) brightness(107%) contrast(101%);
-        &:hover {
-            filter: invert(74%) sepia(9%) saturate(1515%) hue-rotate(327deg) brightness(105%) contrast(104%);
-        }
+        @include toWhite;
     }
 
     &.setting-button {
@@ -268,7 +365,6 @@ button {
     &.volume-control {
         height: 2rem;
         width: 3rem;
-        filter: invert(70%) sepia(1%) saturate(320%) hue-rotate(318deg) brightness(88%) contrast(86%);
         &.mute {
             background: url('@svg/icons/mute.svg') no-repeat;
             background-size: contain;
@@ -279,9 +375,7 @@ button {
             background-size: contain;
             background-position: right;
         }
-        &:hover {
-            filter: invert(74%) sepia(9%) saturate(1515%) hue-rotate(327deg) brightness(105%) contrast(104%);
-        }
+        @include toGrey;
     }
 
     &.timer-quant-button {

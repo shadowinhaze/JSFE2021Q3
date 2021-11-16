@@ -76,18 +76,14 @@ module.exports = {
         new MiniCssExtractPlugin({
             filename: '[name].[contenthash].css'
         }),
-        // new CopyWebpackPlugin({
-        //     patterns: [
-        //         {
-        //             from: path.resolve(__dirname, 'src/assets/favicon'),
-        //             to: path.resolve(__dirname, 'momentum/assets/favicon')
-        //         },
-        //         {
-        //             from: path.resolve(__dirname, 'src/assets/sounds'),
-        //             to: path.resolve(__dirname, 'momentum/assets/sounds')
-        //         }
-        //     ]
-        // }),
+        new CopyWebpackPlugin({
+            patterns: [
+                {
+                    from: path.resolve(__dirname, 'src/assets/img/examp'),
+                    to: path.resolve(__dirname, 'art-quiz/assets/img/examp')
+                }
+            ]
+        }),
     ],
     module: {
         rules: [
