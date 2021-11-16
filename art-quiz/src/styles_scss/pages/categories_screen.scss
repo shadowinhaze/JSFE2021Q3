@@ -1,3 +1,14 @@
+@mixin size {
+    @include respond(mob) {
+        font-size: 1.6rem;
+        line-height: 1.8rem;
+    }
+    @include respond(tabl) {
+        font-size: 2rem;
+        line-height: 2.3rem;
+    }
+}
+
 .categories-screen__content {
     width: 100%;
     .page-title {
@@ -7,28 +18,35 @@
     }
     .category-collection {
         display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        row-gap: 2rem;
-        column-gap: 1.8rem;
+
         .category-card {
             position: relative;
             display: flex;
             flex-wrap: wrap;
-            row-gap: 0.8rem;
+            
             justify-content: space-between;
             &__name {
-                font-size: 1.6rem;
-                line-height: 1.8rem;
+                @include size;
+                @include dTrans;
             }
             &__layout {
                 background: white;
                 width: 100%;
-                height: 16rem;
+                
                 border-radius: 2rem;
+                background-repeat: no-repeat;
+                background-size: cover;
+                @include respond(mob) {
+                    height: 16rem;
+                }
+                @include respond(tabl) {
+                    height: 20rem;
+                }
+                
             }
             &__progress {
-                font-size: 1.6rem;
-                line-height: 1.8rem; 
+                @include size; 
+                @include dTrans;
             }
             &__play-again-badge {
                 position: absolute;
@@ -42,8 +60,7 @@
                 align-items: center;
                 background: $accent;
                 font-weight: 500;
-                font-style: 1.6rem;
-                line-height: 22rem;
+                @include size;
                 color: $black;
                 border-radius: 0 0 2rem 2rem;
                 @include dTrans;
@@ -78,6 +95,22 @@
                     }
                 }
             }
+            @include respond(mob) {
+                row-gap: 0.8rem;
+            }
+            @include respond(tabl) {
+                row-gap: 1rem;
+            }
+        }
+        @include respond(mob) {
+            grid-template-columns: repeat(2, 1fr);
+            row-gap: 2rem;
+            column-gap: 1.8rem;
+        }
+        @include respond(tabl) {
+            grid-template-columns: repeat(3, 1fr);
+            row-gap: 2rem;
+            column-gap: 2.3rem;
         }
     }
 }

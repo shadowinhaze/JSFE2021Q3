@@ -16,6 +16,10 @@ ul {
     padding-left: 0;
 }
 
+a {
+    text-decoration: none;
+}
+
 html {
     font-size: 62.5%;
 }
@@ -89,21 +93,19 @@ body {
     }
 
     &[data-page=categories-screen] {
+        padding: 6rem;
         background: $black;
-        .setting-screen__content, .main-screen__content {
+        .setting-screen__content, .main-screen__content, .footer-creds {
             display: none;
         } 
         & > header {
             .back, .page-title {
                 display: none;
             }
-        }
-        & > footer {
-            .fixed-mobile-menu {
-                display: flex;
+            @include respond(from-tabl) {
+                margin-bottom: 7rem;
             }
-        }
-        
+        }        
     }
 
     @include respond(mob) {
@@ -124,7 +126,24 @@ body {
 header {
     display: flex;
     justify-content: space-between;
+    align-items: center;
     width: 100%;
+}
+
+.header-menu {
+    display: flex;
+    column-gap: 4rem;
+    &__link {
+        font-size: 1.8rem;
+        line-height: 1.8rem;
+        font-weight: 500;
+        color: white;
+        transition: all .1s ease;
+        &:hover {
+            color: $accent;
+            font-weight: 700;
+        }
+    }
 }
 
 //====> HEADER ====
@@ -136,49 +155,55 @@ main {
 
 //====> FOOTER ====
 footer {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
     width: 100%;
-    font-size: 1.6rem;
-    color: white;
-
-    #author {
-        text-decoration: none;
+   
+    .footer-creds {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        width: 100%;
+        font-size: 1.6rem;
         color: white;
-        @include dTrans;
-        &:hover {
-            color: $accent;
-            text-decoration: underline;
+        #author {
+            color: white;
+            @include dTrans;
+            &:hover {
+                color: $accent;
+                text-decoration: underline;
+            }
+            @include respond(from-tabl) {
+                margin-left: auto;
+            }
         }
-        @include respond(from-tabl) {
-            margin-left: auto;
-        }
-    }
-
-    #rss {
-        display: block;
-        background: url('@svg/rs_school_logo.svg') no-repeat;
-        background-size: contain;
-        background-position: center center;
-        width: 6rem;
-        height: 3rem;
-        @include respond(mob) {
+    
+        #rss {
+            display: block;
+            background: url('@svg/rs_school_logo.svg') no-repeat;
+            background-size: contain;
+            background-position: center center;
             width: 6rem;
             height: 3rem;
+            @include respond(mob) {
+                width: 6rem;
+                height: 3rem;
+            }
+            @include respond(from-tabl) {
+                width: 10rem;
+                height: 5rem;
+            }
+            
         }
+
         @include respond(from-tabl) {
-            width: 10rem;
-            height: 5rem;
+            column-gap: 8rem;
         }
-        
     }
 
     .fixed-mobile-menu {
         box-sizing: border-box;
         position: fixed;
 
-        display: none;
+        display: flex;
         justify-content: space-around;
         align-items: flex-end;
 
@@ -194,11 +219,11 @@ footer {
         border: 0.1rem solid white;
         &__link {
             position: relative;
-            text-decoration: none;
             @include dFont;
             font-weight: 500;
             font-size: 1.2rem;
             line-height: 1.8rem;
+            @include dTrans;
             &::before {
                 content: '';
                 position: absolute;
@@ -211,6 +236,7 @@ footer {
                 background-position: center;
                 background-size: contain;
                 background-repeat: no-repeat;
+                @include dTrans;
             }
             &#home-link {
                 &::before {
@@ -229,16 +255,16 @@ footer {
             }
             &:hover {
                 color: $accent;
-                text-shadow: 0 0 0.1rem $accent;
+                text-shadow: 0 0 0.01rem $accent;
                 &::before {
                     filter: invert(74%) sepia(9%) saturate(1515%) hue-rotate(327deg) brightness(105%) contrast(104%);
                 }
             }
         }
-    }
 
-    @include respond(from-tabl) {
-        column-gap: 8rem;
+        @include respond(from-mob) {
+            display: none;
+        }
     }
 
 }
@@ -287,7 +313,7 @@ footer {
         }
     }
     @include respond(from-tabl) {
-        padding-left: 2.5rem;
+        padding-left: 2.1rem;
         h1 {
             font-size: 8rem;
             line-height: 11.6rem;
@@ -297,6 +323,13 @@ footer {
             width: 12rem;
             &:nth-child(2) {
                 left: 6rem;
+            }
+        }
+
+        &.accent {
+            h1 {
+                font-size: 4.2rem;
+                line-height: 6rem;
             }
         }
     }
@@ -490,8 +523,13 @@ button {
 //==== H1-H? ====
 .page-title {
     @include dFont;
-    @include mobSize;
     font-weight: 500;
+    @include respond(mob) {
+        @include mobSize;
+    }
+    @include respond(tabl) {
+        font-size: 3.6rem;
+    }
 }
 
 .setting-item-title {
