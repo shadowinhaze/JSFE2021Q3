@@ -11,19 +11,24 @@
 
 .categories-screen__content {
     width: 100%;
+    
     .page-title {
         width: 100%;
         text-align: left;
         margin-bottom: 5rem;
     }
+
     .category-collection {
         display: grid;
+        margin-bottom: 15rem; 
+        gap: 3rem 2rem;
         .category-card {
             position: relative;
             display: flex;
             flex-wrap: wrap;
-            
             justify-content: space-between;
+            row-gap: 2rem;
+
             &__name {
                 @include size;
                 @include dTrans;
@@ -32,18 +37,11 @@
             &__layout {
                 background: white;
                 width: 100%;
-                
+                aspect-ratio: 1;
+        
                 border-radius: 2rem;
                 background-repeat: no-repeat;
                 background-size: cover;
-
-                @include respond(from-mob) {
-                    height: 20rem;
-                }  
-                
-                @include respond(mob) {
-                    height: 16rem;
-                }
             }
 
             &__progress {
@@ -100,33 +98,21 @@
                     }
                 }
             }
+        }
 
-            @include respond(mob) {
-                row-gap: 0.8rem;
-            }
 
-            @include respond(tabl) {
-                row-gap: 1rem;
-            }
+        @include respond(tabl) {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        @media only screen and (min-width: 768px) and (max-width: 1440px) {
+            grid-template-columns: repeat(auto-fill, minmax(20rem, 1fr));
         }
 
         @include respond(from-desk) {
-            grid-template-columns: repeat(6, 1fr);
-            row-gap: 5rem;
-            column-gap: 2.6rem;
+            grid-template-columns: repeat(6, minmax(20rem, 1fr));
         }
 
-        @include respond(tabl) {
-            grid-template-columns: repeat(3, 1fr);
-            row-gap: 2rem;
-            column-gap: 2.3rem;
-        }
 
-        @include respond(mob) {
-            margin-bottom: 10rem;
-            grid-template-columns: repeat(2, 1fr);
-            row-gap: 2rem;
-            column-gap: 1.8rem;
-        }
     }
 }

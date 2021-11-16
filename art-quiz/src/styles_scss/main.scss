@@ -101,12 +101,15 @@ body {
             .back, .page-title {
                 display: none;
             }
-            @include respond(from-tabl) {
+            @include respond(from-mob) {
                 margin-bottom: 7rem;
             }
         }
         @include respond(mob) {
             padding: 1.6rem;
+        }
+        @include respond(from-mob) {
+            padding: 5%;
         } 
               
     }
@@ -146,9 +149,16 @@ header {
                 font-weight: 700;
             }
         }
-        @include respond(mob) {
+        @include respond(tabl) {
             display: none;
         }
+        @include respond(from-tabl) {
+            margin-right: auto;
+        }
+    }
+
+    @include respond(from-tabl) {
+        column-gap: 10%;
     }
 
 }
@@ -207,7 +217,7 @@ footer {
             column-gap: 8rem;
         }
 
-        @include respond(mob) {
+        @include respond(tabl) {
             display: none;
         }
     }
@@ -275,7 +285,7 @@ footer {
             }
         }
 
-        @include respond(from-mob) {
+        @include respond(from-tabl) {
             display: none;
         }
     }
@@ -325,8 +335,8 @@ footer {
             }
         }
     }
+
     @include respond(from-tabl) {
-        padding-left: 2.3rem;
         h1 {
             font-size: 8rem;
             line-height: 11.6rem;
