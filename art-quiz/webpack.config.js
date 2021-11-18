@@ -45,10 +45,16 @@ module.exports = {
             "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, PATCH, OPTIONS",
             "Access-Control-Allow-Headers": "X-Requested-With, content-type, Authorization"
         },
-        static: {
-            directory: path.join(__dirname, 'src', 'index.html'),
-            watch: true,
-        }
+        static: [
+            {
+                directory: path.join(__dirname, 'src', 'index.html'),
+                watch: true,
+            },
+            {
+                directory: path.join(__dirname, 'src', 'game_author.html'),
+                watch: true, 
+            }
+        ]
     },
 
     stats: 'none',
@@ -68,6 +74,13 @@ module.exports = {
     plugins: [
         new HTMLWebpackPlugin({
             template: './index.html',
+            minify: {
+                collapseWhitespace: isProd
+            }
+        }),
+        new HTMLWebpackPlugin({
+            template: './game_author.html',
+            filename: 'game_author.html',
             minify: {
                 collapseWhitespace: isProd
             }

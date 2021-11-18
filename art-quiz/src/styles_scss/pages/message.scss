@@ -1,0 +1,32 @@
+.message {
+    position: fixed;
+    height: 100%;
+    width: 100%;
+
+    display: flex;
+    visibility: hidden;
+    align-items: center;
+    justify-content: center;
+
+    z-index: 100;
+    background: rgba($color: $black, $alpha: .85);
+    
+    &-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        height: min-content;
+        row-gap: 3rem;
+        background: white;
+        padding: 3rem;
+        margin: 3%;
+        border-radius: 2rem;
+        .close {
+            min-height: 2rem;
+            align-self: flex-end;
+        }
+        .message__content__text {
+            text-align: center;
+        }
+    }
+}
