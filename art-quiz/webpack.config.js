@@ -78,13 +78,6 @@ module.exports = {
                 collapseWhitespace: isProd
             }
         }),
-        new HTMLWebpackPlugin({
-            template: './game_author.html',
-            filename: 'game_author.html',
-            minify: {
-                collapseWhitespace: isProd
-            }
-        }),
         new CleanWebpackPlugin(),
         new MiniCssExtractPlugin({
             filename: '[name].[contenthash].css'
@@ -94,6 +87,14 @@ module.exports = {
                 {
                     from: path.resolve(__dirname, 'src/assets/img/examp'),
                     to: path.resolve(__dirname, 'art-quiz/assets/img/examp')
+                },
+                {
+                    from: path.resolve(__dirname, 'src/pages/html'),
+                    to: path.resolve(__dirname, 'art-quiz/pages/html')
+                },
+                {
+                    from: path.resolve(__dirname, 'src/data.json'),
+                    to: path.resolve(__dirname, 'art-quiz/data.json')
                 }
             ]
         }),

@@ -1,6 +1,5 @@
 import '@scss/main.scss';
-// import { visitFunctionBody } from 'typescript';
-// import Test from '@modules/date_time.js';
+import Game from './pages/app';
 
 
 const settingsButton = document.getElementById('settings');
@@ -12,3 +11,6 @@ settingsButton.addEventListener('click', function () {
     }
     this.classList.toggle('close');
 })
+
+const test = new Game();
+test.init();

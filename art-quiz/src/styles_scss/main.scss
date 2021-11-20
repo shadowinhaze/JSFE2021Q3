@@ -33,8 +33,6 @@ body {
     display: flex;
     flex-direction: column;
     row-gap: 2rem;
-    // justify-content: flex-start;
-    // align-items: center;
     min-height: 100%;
     padding: 2rem;
     background: $black;
@@ -45,14 +43,7 @@ body {
         background: url('@img/main-screen-bg.jpg') center no-repeat;
         background-size: cover;
 
-        .setting-screen__content {
-            display: none;
-        }
-
         & > header {
-            .back, .page-title {
-                display: none;
-            }
             .setting-button {
                 margin-left: auto;
             }
