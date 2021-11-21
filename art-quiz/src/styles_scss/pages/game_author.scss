@@ -97,12 +97,22 @@
                 background: $grey;
                 border-radius: 50%;
                 @include dTrans;
-                &.done {
-                    background: $accent;
-                }
                 &.active {
+                    background: $accent;
+                    &:hover {
+                        background: $accent;
+                        cursor: none;
+                    }
+                }
+
+                &.right {
                     background: $green;
                 }
+
+                &.wrong {
+                    background: $red;
+                }
+                
                 &:hover {
                     cursor: pointer;
                     background: #dbdbdb;

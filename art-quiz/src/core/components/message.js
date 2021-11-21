@@ -29,12 +29,11 @@ export default class Message {
         button.innerText = 'Next';
 
         button.addEventListener('click', () => {
-            let num = +localStorage.AGActiveRound
-            if (num < 10) {
-                num += 1
+            if (OAG.gameVars.activeRound < 10) {
+                OAG.gameVars.activeRound += 1
             }
-            localStorage.AGActiveRound = '' + num;
-            OAG.newRoundRender();
+            OAG.setQuestion();
+            OAG.setPaginationDotStatus('active');
             Message.container.classList.toggle('visible');
         });
 
@@ -51,7 +50,6 @@ export default class Message {
         })
         Message.container.prepend(closeButton);
     }
-
 
     static setMessageText(str) {
         const messageText = Message.container.querySelector('.message__content__text');

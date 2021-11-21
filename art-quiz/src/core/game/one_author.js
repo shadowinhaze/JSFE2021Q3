@@ -7,17 +7,20 @@ export default class AuthorGame {
         quastion: 'Who is the author of this picture?'
     }
 
-    static roundWinner = '';
-    
-    constructor() {
-        localStorage.setItem('AGActiveRound', '0');
+    static gameVars = {
+        activeRound: 0,
+        gameColletion: [],
+        allAuthors: [],
+        allRoundsGames: []
     }
-
+    
     static async getDataFromDB() {
         try {
             const response = await fetch(AuthorGame.vars.dbUrl);
             const data = await response.json();
-            return data.collection;
+            AuthorGame.getAuthors(data.collection);
+            AuthorGame.genGameCollection(data.collection);
+            return true;
         } catch (err) {
             console.warn('Something went wrong.', err);
         }    
@@ -27,10 +30,10 @@ export default class AuthorGame {
         const response = await fetch(`${AuthorGame.vars.dbUrlForFullImg}/${imgNum}full.jpg`);
         const blob = await response.blob();
         const url = URL.createObjectURL(blob);
-        const quastionImg = document.createElement('img');
-        quastionImg.classList.add('question-img');
-        quastionImg.src = url;
-        return quastionImg;
+        // const quastionImg = document.createElement('img');
+        // quastionImg.classList.add('question-img');
+        // quastionImg.src = url;
+        return url;
     }
 
     static genAnswers(arr) {
@@ -47,10 +50,12 @@ export default class AuthorGame {
                 message.classList.toggle('visible');
                 if (AuthorGame.checkAnswer(quastionButton.dataset.author)) {
                     quastionButton.classList.add('right');
+                    AuthorGame.setPaginationDotStatus('right');
                     Message.setMessageText(Message.vars.rightMessage);
                     Message.genNextButton();
                 } else {
                     quastionButton.classList.add('wrong');
+                    AuthorGame.setPaginationDotStatus('wrong');
                     Message.setMessageText(Message.vars.wrongMessage);
                     Message.genNextButton();
                 }
@@ -66,8 +71,37 @@ export default class AuthorGame {
         for (let i = 0; i < num; i++) {
             const pagDot = document.createElement('div');
             pagDot.classList.add('pagination-dot');
-            paginationContainer.append(pagDot)
+            pagDot.addEventListener('click', () => {
+                if (pagDot.classList.contains('active') || pagDot.classList.contains('wrong')) {
+                    return;
+                }
+                AuthorGame.gameVars.activeRound = i;
+                AuthorGame.setPaginationDotStatus('active');
+                AuthorGame.setQuestion();
+            })
+            paginationContainer.append(pagDot);
         }
+    }
+
+    static setPaginationDotStatus(status) {
+        const pagintaionDots = document.querySelectorAll('.pagination-dot');
+        pagintaionDots.forEach((item, index) => {
+            if (index === AuthorGame.gameVars.activeRound) {
+                switch (status) {
+                    case 'active':
+                        item.classList.add(status)
+                        break;
+                    case 'right':
+                        item.classList.replace('active', 'right')
+                        break;
+                    case 'wrong':
+                        item.classList.replace('active', 'wrong')
+                        break;
+                }
+            } else {
+                item.classList.remove('active')
+            }
+        })
     }
 
     static shuffle(arr) {
@@ -82,11 +116,12 @@ export default class AuthorGame {
         return arr[Math.floor(Math.random()*arr.length)];
     }
 
-    static async getAuthors() {
-        const dbPull = await AuthorGame.getDataFromDB();
+    static getAuthors(data) {
+        // const dbPull = await AuthorGame.getDataFromDB();
         const dbAuthors = new Set();
-        dbPull.forEach(item => dbAuthors.add(item.author))
-        return [...dbAuthors];
+        data.forEach(item => dbAuthors.add(item.author));
+        AuthorGame.gameVars.allAuthors = [...dbAuthors];
+        // return [...dbAuthors];
     }
 
     static getUnicGroup(firstItem, arr, num) {
@@ -98,52 +133,48 @@ export default class AuthorGame {
         return [...result];
     }
 
-    static async getGameCollection() {
-        const dbPull = await AuthorGame.getDataFromDB();
-        return dbPull.splice(0, 10);
+    static genGameCollection(data) {
+        AuthorGame.gameVars.gameColletion = data.splice(0, 10);
     }
 
-    static async genQuestion() {
-        const authors = await AuthorGame.getAuthors();
-        const gameCollection = await AuthorGame.getGameCollection();
-        const roundItem = gameCollection[+localStorage.AGActiveRound];
-        AuthorGame.roundWinner = roundItem.author;
+    static async genQuestion(round) {
+        const roundItem = AuthorGame.gameVars.gameColletion[round];
         
-        const image = await AuthorGame.genQuestionImage(roundItem.imageNum);
-        const roundQuestions = AuthorGame.getUnicGroup(roundItem.author, authors, 4);
-        const buttons = AuthorGame.genAnswers(roundQuestions);
+        const winner = roundItem.author
+        const imageUrl = await AuthorGame.genQuestionImage(roundItem.imageNum);
+        const roundAnswers = AuthorGame.getUnicGroup(roundItem.author, AuthorGame.gameVars.allAuthors, 4);
+        const buttons = AuthorGame.genAnswers(roundAnswers);
 
-        return { image, buttons }
+        return { winner, imageUrl, buttons }
     }
 
-    static checkAnswer(data) {
-        if (data === AuthorGame.roundWinner) {
-            return true;
-        } else {
-            return false;
+    static async genAllRoundsGames() {
+        for (let i = 0; i < AuthorGame.gameVars.gameColletion.length; i++) {
+            const item = await AuthorGame.genQuestion(i)
+            AuthorGame.gameVars.allRoundsGames.push(item)
         }
     }
 
-    static async newRoundRender() {
-        const { image, buttons } = await AuthorGame.genQuestion();
+    static checkAnswer(data) {
+        return (data === AuthorGame.gameVars.allRoundsGames[AuthorGame.gameVars.activeRound].winner) ? true : false ;
+    }
+
+    static setQuestion() {
+        const imageUrl = AuthorGame.gameVars.allRoundsGames[AuthorGame.gameVars.activeRound].imageUrl;
+        const buttons = AuthorGame.gameVars.allRoundsGames[AuthorGame.gameVars.activeRound].buttons;
         const questionImg = document.querySelector('.question-img');
         const questionAnswers = document.querySelector('.answer-block');
-
-        questionImg.src = image.src;
+        questionImg.src = imageUrl;
         questionAnswers.innerHTML = '';
         buttons.forEach(item => questionAnswers.prepend(item));
     }
 
     async render() {
-        const { image, buttons } = await AuthorGame.genQuestion();
-        const questionImg = document.querySelector('.main-quastion__layout');
-        const questionAnswers = document.querySelector('.answer-block');
-        
-        questionImg.innerHTML = '<div class="main-quastion__pagination"></div>'
-        questionImg.prepend(image);
-        AuthorGame.genPagination(10);
+        await AuthorGame.getDataFromDB();
+        await AuthorGame.genAllRoundsGames();
 
-        questionAnswers.innerHTML = '';
-        buttons.forEach(item => questionAnswers.prepend(item));
+        AuthorGame.setQuestion();
+        AuthorGame.genPagination(10);
+        AuthorGame.setPaginationDotStatus('active');
     }
 }
