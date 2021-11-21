@@ -5,7 +5,8 @@ export default class Message {
         next: 'next',
         confirm: 'confirm',
         rightMessage: 'You are right!',
-        wrongMessage: 'You are wrong :('
+        wrongMessage: 'You are wrong :(',
+        endGameMessage: 'Hurra! Finish!'
     }
 
     static container = document.createElement('div')
@@ -40,6 +41,15 @@ export default class Message {
         if (!buttonContainer.hasChildNodes()) {
             buttonContainer.append(button);
         }
+    }
+
+    static showResult() {
+        const buttonContainer = Message.container.querySelector('.button-block');
+        buttonContainer.innerHTML = '';
+        const result = OAG.gameVars.gameScore.reduce((total, item) => total + item.result, 0);
+        const resultMess = document.createElement('p');
+        resultMess.innerText = `You result: ${result}/10`
+        buttonContainer.append(resultMess)
     }
 
     static addCloseButton() {

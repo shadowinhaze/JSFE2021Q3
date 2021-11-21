@@ -9,6 +9,7 @@ export default class AuthorGame {
 
     static gameVars = {
         activeRound: 0,
+        gameScore: [],
         gameColletion: [],
         allAuthors: [],
         allRoundsGames: []
@@ -30,9 +31,6 @@ export default class AuthorGame {
         const response = await fetch(`${AuthorGame.vars.dbUrlForFullImg}/${imgNum}full.jpg`);
         const blob = await response.blob();
         const url = URL.createObjectURL(blob);
-        // const quastionImg = document.createElement('img');
-        // quastionImg.classList.add('question-img');
-        // quastionImg.src = url;
         return url;
     }
 
@@ -49,15 +47,27 @@ export default class AuthorGame {
                 const message = document.querySelector('.message')
                 message.classList.toggle('visible');
                 if (AuthorGame.checkAnswer(quastionButton.dataset.author)) {
+                    AuthorGame.gameVars.gameScore.push({ round: AuthorGame.gameVars.activeRound, result: 1});
                     quastionButton.classList.add('right');
                     AuthorGame.setPaginationDotStatus('right');
-                    Message.setMessageText(Message.vars.rightMessage);
-                    Message.genNextButton();
+                    if (AuthorGame.gameVars.gameScore.length < AuthorGame.gameVars.gameColletion.length) {
+                        Message.setMessageText(Message.vars.rightMessage);
+                        Message.genNextButton();
+                    } else {
+                        Message.setMessageText(Message.vars.endGameMessage);
+                        Message.showResult();
+                    }
                 } else {
+                    AuthorGame.gameVars.gameScore.push({ round: AuthorGame.gameVars.activeRound, result: 0});
                     quastionButton.classList.add('wrong');
                     AuthorGame.setPaginationDotStatus('wrong');
-                    Message.setMessageText(Message.vars.wrongMessage);
-                    Message.genNextButton();
+                    if (AuthorGame.gameVars.gameScore.length < AuthorGame.gameVars.gameColletion.length) {
+                        Message.setMessageText(Message.vars.wrongMessage);
+                        Message.genNextButton();
+                    } else {
+                        Message.setMessageText(Message.vars.endGameMessage);
+                        Message.showResult();
+                    }
                 }
             })
 
@@ -167,6 +177,7 @@ export default class AuthorGame {
         questionImg.src = imageUrl;
         questionAnswers.innerHTML = '';
         buttons.forEach(item => questionAnswers.prepend(item));
+        console.log(AuthorGame.gameVars.gameScore)
     }
 
     async render() {
