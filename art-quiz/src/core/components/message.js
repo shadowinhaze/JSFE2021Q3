@@ -1,7 +1,11 @@
+import OAG from '../game/one_author'
+
 export default class Message {
     static vars = {
         next: 'next',
-        confirm: 'confirm'
+        confirm: 'confirm',
+        rightMessage: 'You are right!',
+        wrongMessage: 'You are wrong :('
     }
 
     static container = document.createElement('div')
@@ -10,7 +14,6 @@ export default class Message {
         Message.container.classList.add('message');
         Message.container.innerHTML = `
         <div class="message-container">
-            <button class="close"></button>
             <div class="message__content">
                 <p class="message__content__text"></p>
             </div>
@@ -18,13 +21,41 @@ export default class Message {
         </div>`;
     }
 
-    static addNextButton() {
-        const buttonBlock = Message.container.querySelector('.button-block');
+    static genNextButton() {
+        const buttonContainer = Message.container.querySelector('.button-block');
         const button = document.createElement('button');
 
-        button.classList.add('default-button', 'dark');
+        button.classList.add('default-button', 'dark', 'next');
         button.innerText = 'Next';
-        buttonBlock.append(button);
+
+        button.addEventListener('click', () => {
+            let num = +localStorage.AGActiveRound
+            if (num < 10) {
+                num += 1
+            }
+            localStorage.AGActiveRound = '' + num;
+            OAG.newRoundRender();
+            Message.container.classList.toggle('visible');
+        });
+
+        if (!buttonContainer.hasChildNodes()) {
+            buttonContainer.append(button);
+        }
+    }
+
+    static addCloseButton() {
+        const closeButton = document.createElement('button')
+        closeButton.classList.add('.close');
+        closeButton.addEventListener('click', () => {
+            this.container.classList.remove('visible');
+        })
+        Message.container.prepend(closeButton);
+    }
+
+
+    static setMessageText(str) {
+        const messageText = Message.container.querySelector('.message__content__text');
+        messageText.innerText = str;
     }
 
     // static addConfirmButtons() {
@@ -38,31 +69,7 @@ export default class Message {
     //     buttonBlock.append(buttonNo, buttonYes);
     // }
 
-    static addCloseAction() {
-        const closeButton = Message.container.querySelector('.close');
-        closeButton.addEventListener('click', () => {
-            this.container.classList.remove('visible');
-        })
-    }
-    
-    static addMessageText(str) {
-        const messageText = Message.container.querySelector('.message__content__text');
-        messageText.innerText = str;
-    }
-
     render() {
-        Message.addCloseAction();
-        Message.addMessageText('Продолжай');
-        Message.addNextButton();
-
-        // switch (str) {
-        //     case MessageGame.vars.next:
-        //         MessageGame.addNextButton();
-        //         break;
-        //     case MessageGame.vars.confirm:
-        //         MessageGame.addConfirmButtons();
-        //         break;
-        // }
         return Message.container;
     }
 

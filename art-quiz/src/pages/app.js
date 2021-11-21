@@ -15,7 +15,7 @@ export default class App {
     static renderNewPage(pageID) {
         App.container.innerHTML = '';
         let screen = null;
-        let readyForGame = false;
+        let isReadyForGame = false;
         switch (pageID) {
             case ScreenIds.main:
                 screen = new MainScreen(pageID)
@@ -25,17 +25,15 @@ export default class App {
                 break;
             case ScreenIds.oneAuthorGame:
                 screen = new OneAuthorGameScreen(pageID);
-                readyForGame = true;
+                isReadyForGame = true;
                 break;
         }
 
         if (screen) {
             screen.render().then(templateOfThePage => {
                 App.container.innerHTML = templateOfThePage;
-                if (readyForGame) {
-                    screen.setQuestion();
-                    const main = document.querySelector('main');
-                    main.append(screen.setMessage())
+                if (isReadyForGame) {
+                    screen.start();
                 }
             });
             App.container.dataset.page = pageID;

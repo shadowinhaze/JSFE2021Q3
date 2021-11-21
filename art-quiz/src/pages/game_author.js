@@ -17,13 +17,13 @@ export default class OneAuthorGameScreen extends Screen {
         return this.getContentFromHtmlСhunk(OneAuthorGameScreen.vars.templatePath);
     }
 
-    setQuestion() {
-        const game = new Game();
-        game.render();
-    }
+    start() {
+        const main = document.querySelector('main');
+        
+        this.game = new Game();
+        this.game.render();
 
-    setMessage() {
-        const message = new Message();
-        return message.render();
+        this.gameMessage = new Message();
+        main.append(this.gameMessage.render());
     }
 }

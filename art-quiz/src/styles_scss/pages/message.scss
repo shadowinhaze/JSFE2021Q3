@@ -33,4 +33,8 @@
     &.visible {
         visibility: visible;
     }
+
+    button {
+        transition: none;
+    }
 }

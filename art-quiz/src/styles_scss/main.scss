@@ -480,6 +480,19 @@ button {
         @include toGrey;
     }
 
+    &.answer-button {
+        &.right {
+            background: $green;
+            border-color: $green;
+            color: $black;
+        }
+        &.wrong {
+            background: $red;
+            border-color: $red;
+            color: $black;
+        }
+    }
+
     &:hover {
         cursor: pointer;
         color: $black;
