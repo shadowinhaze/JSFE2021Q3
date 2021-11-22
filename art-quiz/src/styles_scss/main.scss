@@ -152,6 +152,11 @@ header {
                 color: $accent;
                 font-weight: 700;
             }
+            &.active {
+                color: $accent;
+                font-weight: 700;
+                cursor: inherit;
+            }
         }
         @include respond(tabl) {
             display: none;
