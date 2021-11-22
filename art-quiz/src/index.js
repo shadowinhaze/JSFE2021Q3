@@ -13,3 +13,4 @@ import Router from './pages/app';
 
 const main = new Router();
 main.init();
+

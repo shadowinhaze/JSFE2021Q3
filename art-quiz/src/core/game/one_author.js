@@ -10,7 +10,7 @@ export default class AuthorGame {
     static gameVars = {
         activeRound: 0,
         gameScore: [],
-        gameColletion: [],
+        gameCollection: [],
         allAuthors: [],
         allRoundsGames: []
     }
@@ -20,8 +20,6 @@ export default class AuthorGame {
             const response = await fetch(AuthorGame.vars.dbUrl);
             const data = await response.json();
             AuthorGame.getAuthors(data.collection);
-            AuthorGame.genGameCollection(data.collection);
-            return true;
         } catch (err) {
             console.warn('Something went wrong.', err);
         }    
@@ -50,10 +48,11 @@ export default class AuthorGame {
                     AuthorGame.gameVars.gameScore.push({ round: AuthorGame.gameVars.activeRound, result: 1});
                     quastionButton.classList.add('right');
                     AuthorGame.setPaginationDotStatus('right');
-                    if (AuthorGame.gameVars.gameScore.length < AuthorGame.gameVars.gameColletion.length) {
+                    if (AuthorGame.gameVars.gameScore.length < AuthorGame.gameVars.gameCollection.length) {
                         Message.setMessageText(Message.vars.rightMessage);
                         Message.genNextButton();
                     } else {
+                        AuthorGame.saveScore();
                         Message.setMessageText(Message.vars.endGameMessage);
                         Message.showResult();
                     }
@@ -61,10 +60,11 @@ export default class AuthorGame {
                     AuthorGame.gameVars.gameScore.push({ round: AuthorGame.gameVars.activeRound, result: 0});
                     quastionButton.classList.add('wrong');
                     AuthorGame.setPaginationDotStatus('wrong');
-                    if (AuthorGame.gameVars.gameScore.length < AuthorGame.gameVars.gameColletion.length) {
+                    if (AuthorGame.gameVars.gameScore.length < AuthorGame.gameVars.gameCollection.length) {
                         Message.setMessageText(Message.vars.wrongMessage);
                         Message.genNextButton();
                     } else {
+                        AuthorGame.saveScore();
                         Message.setMessageText(Message.vars.endGameMessage);
                         Message.showResult();
                     }
@@ -127,11 +127,9 @@ export default class AuthorGame {
     }
 
     static getAuthors(data) {
-        // const dbPull = await AuthorGame.getDataFromDB();
         const dbAuthors = new Set();
         data.forEach(item => dbAuthors.add(item.author));
         AuthorGame.gameVars.allAuthors = [...dbAuthors];
-        // return [...dbAuthors];
     }
 
     static getUnicGroup(firstItem, arr, num) {
@@ -143,13 +141,13 @@ export default class AuthorGame {
         return [...result];
     }
 
-    static genGameCollection(data) {
-        AuthorGame.gameVars.gameColletion = data.splice(0, 10);
+    static genGameCollection() {
+        const collection = JSON.parse(localStorage.activeCat).cat
+        AuthorGame.gameVars.gameCollection = collection;
     }
 
     static async genQuestion(round) {
-        const roundItem = AuthorGame.gameVars.gameColletion[round];
-        
+        const roundItem = AuthorGame.gameVars.gameCollection[round];
         const winner = roundItem.author
         const imageUrl = await AuthorGame.genQuestionImage(roundItem.imageNum);
         const roundAnswers = AuthorGame.getUnicGroup(roundItem.author, AuthorGame.gameVars.allAuthors, 4);
@@ -159,7 +157,7 @@ export default class AuthorGame {
     }
 
     static async genAllRoundsGames() {
-        for (let i = 0; i < AuthorGame.gameVars.gameColletion.length; i++) {
+        for (let i = 0; i < AuthorGame.gameVars.gameCollection.length; i++) {
             const item = await AuthorGame.genQuestion(i)
             AuthorGame.gameVars.allRoundsGames.push(item)
         }
@@ -167,6 +165,13 @@ export default class AuthorGame {
 
     static checkAnswer(data) {
         return (data === AuthorGame.gameVars.allRoundsGames[AuthorGame.gameVars.activeRound].winner) ? true : false ;
+    }
+
+    static saveScore() {
+        let score = JSON.parse(localStorage.accountScore);
+        let activeCatNum = +JSON.parse(localStorage.activeCat).index
+        score.push({ category: activeCatNum, score: AuthorGame.gameVars.gameScore })
+        localStorage.accountScore = JSON.stringify(score)
     }
 
     static setQuestion() {
@@ -177,10 +182,10 @@ export default class AuthorGame {
         questionImg.src = imageUrl;
         questionAnswers.innerHTML = '';
         buttons.forEach(item => questionAnswers.prepend(item));
-        console.log(AuthorGame.gameVars.gameScore)
     }
 
     async render() {
+        AuthorGame.genGameCollection();
         await AuthorGame.getDataFromDB();
         await AuthorGame.genAllRoundsGames();
 
