@@ -39,7 +39,7 @@ body {
 
     @include dFont;
 
-    &[data-page=main-screen]{
+    &#main {
         background: url('@img/main-screen-bg.jpg') center no-repeat;
         background-size: cover;
 
@@ -88,7 +88,7 @@ body {
         }
     }
 
-    &[data-page=categories-screen] {
+    &#categories {
         padding: 6rem;
 
         .setting-screen__content, .main-screen__content {

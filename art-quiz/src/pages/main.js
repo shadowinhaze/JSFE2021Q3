@@ -2,8 +2,8 @@ import Screen from '../core/templates/screen';
 
 export default class MainScreen extends Screen {
     static vars = {
-        title: 'Art-Quize game',
-        templatePath: '../pages/html/main.html',
+        title: 'Art-Quize',
+        templatePath: './pages/html/main.html',
     };
 
     constructor(id) {

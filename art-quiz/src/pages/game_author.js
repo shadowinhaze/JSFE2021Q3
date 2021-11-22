@@ -5,7 +5,7 @@ import Message from '../core/components/message';
 export default class OneAuthorGameScreen extends Screen {
     static vars = {
         title: 'AQ | one author game',
-        templatePath: '../pages/html/game_author.html',
+        templatePath: './pages/html/game_author.html',
     };
 
     constructor(id) {

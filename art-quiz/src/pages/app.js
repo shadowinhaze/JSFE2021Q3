@@ -4,8 +4,8 @@ import OneAuthorGameScreen from './game_author';
 
 
 export const ScreenIds = {
-    main: 'main-screen',
-    cats: 'categories-screen',
+    main: 'main',
+    cats: 'categories',
     oneAuthorGame: 'one-author-game'
 }
 
@@ -36,7 +36,7 @@ export default class App {
                     screen.start();
                 }
             });
-            App.container.dataset.page = pageID;
+            App.container.id = pageID;
         }
     }
 

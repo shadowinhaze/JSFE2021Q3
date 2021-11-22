@@ -127,6 +127,13 @@ module.exports = {
                     filename: 'cashed/svg/[hash][ext]'
                 },
             },
+            {
+                test: /\.ttf$/,
+                type: 'asset/resource',
+                generator: {
+                    filename: 'cashed/fonts/[hash][ext]'
+                },
+            },
         ]
     },
 };

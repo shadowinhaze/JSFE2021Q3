@@ -3,7 +3,7 @@ import Screen from '../core/templates/screen';
 export default class CatScreen extends Screen {
     static vars = {
         title: 'AQ | categories',
-        templatePath: '../pages/html/categories.html'
+        templatePath: './pages/html/categories.html'
     };
 
     constructor(id) {
