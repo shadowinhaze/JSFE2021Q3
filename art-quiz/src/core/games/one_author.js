@@ -169,8 +169,11 @@ export default class AuthorGame {
 
     static saveScore() {
         let score = JSON.parse(localStorage.accountScore);
-        let activeCatNum = +JSON.parse(localStorage.activeCat).index
-        score.push({ category: activeCatNum, score: AuthorGame.gameVars.gameScore })
+        let activeCatNum = JSON.parse(localStorage.activeCat).index;
+        if (score.length === 0) score.push ({ category: activeCatNum, score: AuthorGame.gameVars.gameScore })
+        score = score.map(item => {
+            return (item.category === activeCatNum) ? { category: activeCatNum, score: AuthorGame.gameVars.gameScore } : item;
+        })
         localStorage.accountScore = JSON.stringify(score)
     }
 

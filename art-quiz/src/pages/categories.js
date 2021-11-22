@@ -51,22 +51,63 @@ export default class Categories extends Screen {
             Categories.entities.covers.push(cover);
         }
     }
+
+    static getAccountScore() {
+        return (localStorage.accountScore) ? JSON.parse(localStorage.accountScore) : []; 
+    }
     
     async genCatItems() {
-        await Categories.getCatCovers();
+        await Categories.getCatCovers();        
         const catsContainer = document.querySelector('.category-collection');
+        const score = Categories.getAccountScore();
+
         Categories.entities.cats.forEach((cat, index) => {
             const catItem = document.createElement('div');
-            catItem.classList.add('category-card');
+            let resultScore = null;
+
+            if (score.length !== 0) {
+                score.forEach(item => {
+                    if (item.category === index) {
+                        catItem.classList.add('category-card')
+                        resultScore = item.score.reduce((total, e) => total + e.result, 0);
+                        catItem.addEventListener('click', () => {
+                            localStorage.activeCat = JSON.stringify({ index, cat });
+                            window.location.hash = `#${ScreenIds.score}`
+                        })
+                    } else {
+                        catItem.classList.add('category-card', 'unplayed');
+                        catItem.addEventListener('click', () => {
+                            localStorage.activeCat = JSON.stringify({ index, cat });
+                            window.location.hash = `#${ScreenIds.oneAuthorGame}`
+                        })
+                    }
+                })
+            } else {
+                catItem.classList.add('category-card', 'unplayed');
+                catItem.addEventListener('click', () => {
+                    localStorage.activeCat = JSON.stringify({ index, cat });
+                    window.location.hash = `#${ScreenIds.oneAuthorGame}`
+                })
+            }
+            
             catItem.innerHTML = `
                 <div class="category-card__name">Part ${index + 1}</div>
-                <div class="category-card__progress"></div>
+                <div class="category-card__progress">${(resultScore !== null) ? `${resultScore} / 10` : '' }</div>
                 <div class="category-card__layout" style="background-image: url(${Categories.entities.covers[index]})"></div>
             `
-            catItem.addEventListener('click', () => {
-                localStorage.activeCat = JSON.stringify({ index, cat });
-                window.location.hash = `#${ScreenIds.oneAuthorGame}`
-            })
+
+            if (resultScore !== null) {
+                const playAgainButton = document.createElement('div');
+                playAgainButton.classList.add('category-card__play-again-badge');
+                playAgainButton.innerHTML = '<span></span> Play again';
+                playAgainButton.addEventListener('click', (e) => {
+                    localStorage.activeCat = JSON.stringify({ index, cat });
+                    window.location.hash = `#${ScreenIds.oneAuthorGame}`
+                    e.stopPropagation()
+                })
+                catItem.append(playAgainButton)
+            }
+            
             catsContainer.appendChild(catItem);
         })
     }

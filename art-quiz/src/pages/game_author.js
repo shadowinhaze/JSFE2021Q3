@@ -1,5 +1,5 @@
 import Screen from '../core/templates/screen';
-import Game from '../core/game/one_author';
+import Game from '../core/games/one_author';
 import Message from '../core/components/message';
 
 export default class OneAuthorGameScreen extends Screen {

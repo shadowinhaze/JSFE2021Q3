@@ -37,4 +37,11 @@
     button {
         transition: none;
     }
+
+    .button-block {
+        p {
+            color: $black;
+            @include mobSize;
+        }
+    }
 }

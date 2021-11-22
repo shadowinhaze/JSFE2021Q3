@@ -1,11 +1,13 @@
 import MainScreen from './main';
 import CatScreen from './categories';
 import OneAuthorGameScreen from './game_author';
+import Score from './score';
 
 export const ScreenIds = {
     main: 'main',
     cats: 'categories',
-    oneAuthorGame: 'one-author-game'
+    oneAuthorGame: 'one-author-game',
+    score: 'score'
 }
 
 export default class App {
@@ -18,15 +20,15 @@ export default class App {
         switch (pageID) {
             case ScreenIds.main:
                 screen = new MainScreen(pageID);
-                // App.checkHash(pageID)
                 break;
             case ScreenIds.cats:
                 screen = new CatScreen(pageID);
-                // App.checkHash(pageID)
                 break;
             case ScreenIds.oneAuthorGame:
                 screen = new OneAuthorGameScreen(pageID);
-                // App.checkHash(pageID)
+                break;
+            case ScreenIds.score:
+                screen = new Score(pageID)
                 break;
         }
 
@@ -40,16 +42,14 @@ export default class App {
                     case ScreenIds.cats:
                         screen.genCatItems();
                         break;
+                    case ScreenIds.score:
+                        screen.genCatItems();
+                        break;
                 }
             });
             App.container.id = pageID;
         }
     }
-
-    // static checkHash(data) {
-    //     const hash = window.location.hash.slice(1);
-    //     if (hash !== data) window.location.hash = `#${data}`;
-    // }
 
     static addMoveContorol() {
         const catItems = document.querySelectorAll('.category-card');

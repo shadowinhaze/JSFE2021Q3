@@ -1,4 +1,4 @@
-import OAG from '../game/one_author'
+import OAG from '../games/one_author'
 
 export default class Message {
     static vars = {
