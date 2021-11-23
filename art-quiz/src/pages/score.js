@@ -39,12 +39,12 @@ export default class Score extends Screen {
     async genCatItems() {
         await Score.getActiveCatCovers();
         const score = Score.getAccountScore();
-        const results = score.flatMap(game => {
-            if (game.category === Score.entities.activeCollection.index) {
-                return game.score
+        let results = []
+        score.forEach(cat => {
+            if (cat.category === Score.entities.activeCollection.index) {
+                results = cat.score.sort((a, b) => a.round > b.round)
             }
-        }).sort((a,b) => a.round > b.round)
-
+        })
         const catsContainer = document.querySelector('.category-collection');
         Score.entities.activeCollection.cat.forEach((item, index) => {
             const catItem = document.createElement('div');

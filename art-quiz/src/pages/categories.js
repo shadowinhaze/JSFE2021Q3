@@ -81,7 +81,8 @@ export default class Categories extends Screen {
 
         Categories.entities.cats.forEach((cat, index) => {
             const catItem = document.createElement('div');
-            if (checkInPlayed(index)[0]) {
+            const isPlayed = checkInPlayed(index)
+            if (isPlayed[0]) {
                 catItem.classList.add('category-card')
                 catItem.addEventListener('click', () => {
                     localStorage.activeCat = JSON.stringify({ index, cat });
@@ -89,7 +90,7 @@ export default class Categories extends Screen {
                 })
                 catItem.innerHTML = `
                 <div class="category-card__name">Part ${index + 1}</div>
-                <div class="category-card__progress">${playedCats[1].result} / 10</div>
+                <div class="category-card__progress">${playedCats[isPlayed[1]].result} / 10</div>
                 <div class="category-card__layout" style="background-image: url(${Categories.entities.covers[index]})"></div>
                 `
                 const playAgainButton = document.createElement('div');
