@@ -24,5 +24,5 @@ export default class Sound {
     static setVolume(value) {
         Sound.audio.volume = value;
     }
-
+    
 }

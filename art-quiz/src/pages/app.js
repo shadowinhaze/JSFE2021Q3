@@ -2,7 +2,7 @@ import MainScreen from './main';
 import CatScreen from './categories';
 import OneAuthorGameScreen from './game_author';
 import Score from './score';
-import Settings from './settings';
+import Settings from '../core/components/settings';
 import Sound from '../core/components/sound';
 
 export const ScreenIds = {
@@ -10,7 +10,6 @@ export const ScreenIds = {
     cats: 'categories',
     oneAuthorGame: 'one-author-game',
     score: 'score',
-    settings: 'settings'
 }
 
 export default class App {
@@ -33,18 +32,17 @@ export default class App {
             case ScreenIds.score:
                 screen = new Score(pageID)
                 break;
-            case ScreenIds.settings:
-                screen = new Settings(pageID)
-                break;
         }
 
         if (screen) {
             screen.render().then(templateOfThePage => {
                 App.container.innerHTML = templateOfThePage;
+                const mainBlock = App.container.querySelector('main');
                 switch (pageID) {
                     case ScreenIds.main:
-                        Settings.findSettings();
                         Sound.setAudioVar();
+                        Settings.render();
+                        mainBlock.append(Settings.box);
                         break;
                     case ScreenIds.oneAuthorGame:
                         screen.start();
@@ -52,18 +50,15 @@ export default class App {
                         break;
                     case ScreenIds.cats:
                         screen.genCatItems();
-                        Settings.findSettings();
+                        Settings.render();
+                        mainBlock.append(Settings.box);
                         Sound.setAudioVar();
                         break;
                     case ScreenIds.score:
                         screen.genCatItems();
-                        Settings.findSettings();
                         Sound.setAudioVar();
-                        break;
-                    case ScreenIds.settings:
-                        Settings.setClose();
-                        Settings.setVolume();
-                        Sound.setAudioVar();
+                        Settings.render();
+                        mainBlock.append(Settings.box);
                         break;
                 }
             });
@@ -73,10 +68,8 @@ export default class App {
 
     static addMoveContorol() {
         const catItems = document.querySelectorAll('.category-card');
-        console.log(catItems)
         catItems.forEach(catItem => {
             catItem.addEventListener('click', () => {
-                console.log('clicked')
                 App.renderNewPage(ScreenIds.oneAuthorGame)
             })
         })

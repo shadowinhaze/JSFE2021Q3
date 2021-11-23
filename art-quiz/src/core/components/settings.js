@@ -1,34 +1,35 @@
-import Screen from '../core/templates/screen';
-import Sound from '../core/components/sound'
+import Sound from './sound'
 
-export default class Settings extends Screen {
+export default class Settings {
     static vars = {
-        title: 'AQ | settings',
         templatePath: './pages/html/settings.html',
     };
 
-    constructor(id) {
-        super(id);
-        this.setPageTitle(Settings.vars.title);
+    static box = null;
+    
+    static setContainer() {
+        Settings.box = document.createElement('section');
+        Settings.box.id = 'settings';
+        Settings.box.classList.add('hidden')
     }
 
-    static findSettings() {
-        const settingsButton = document.getElementById('settings-button');
-        settingsButton.addEventListener('click', () => {
-            window.location.hash = '#settings'
+    static async getContentFromHtmlTemplate(path) {
+        try {
+            const response = await fetch(path);
+            const html = await response.text();
+            Settings.box.innerHTML = html;
+        } catch (err) {
+            console.warn('Something went wrong.', err);
+        }    
+    }
+
+    static showHideSettings() {
+        const settingsButtons = document.querySelectorAll('.setting-button');
+        settingsButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                Settings.box.classList.toggle('hidden')
+            })
         })
-    }
-
-    static setClose() {
-        const settingsCloseButton = document.getElementById('settings-button');
-        const settingsBackButton = document.querySelector('.back');
-
-        const goBack = () => {
-            Sound.play();
-            window.history.back() 
-        };
-        settingsCloseButton.addEventListener('click', goBack)
-        settingsBackButton.addEventListener('click', goBack)
     }
 
     static setVolume() {
@@ -36,7 +37,7 @@ export default class Settings extends Screen {
         const audioVolume = document.getElementById('volume');
         const volumeControlFull = document.querySelector('.volume-control.full')
         const volumeControlMute = document.querySelector('.volume-control.mute')
-        console.log(volumeControlFull, volumeControlMute)
+
         const duoBg = () => {
             rangeInput.forEach(e => {
                 let value = (e.value - e.min) / (e.max - e.min) * 100;
@@ -63,11 +64,16 @@ export default class Settings extends Screen {
 
         const button = document.querySelector('.reset');
         button.addEventListener('click', Sound.play)
-
         audioVolume.addEventListener('input', toggleAudioVolumeIcon);
+
+    }
+    
+
+    static async render() {
+        Settings.setContainer();
+        await Settings.getContentFromHtmlTemplate(Settings.vars.templatePath);
+        Settings.showHideSettings();
+        Settings.setVolume();
     }
 
-    render() {
-        return this.getContentFromHtmlСhunk(Settings.vars.templatePath);
-    }
 }

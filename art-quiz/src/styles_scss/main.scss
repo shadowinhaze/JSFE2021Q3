@@ -1,7 +1,7 @@
 @import "~normalize.css";
 @import "./add";
 @import "./pages/main_screen";
-@import "./pages/setting_screen";
+@import "./pages/setting";
 @import "./pages/categories_screen";
 @import "./pages/game_author";
 @import "./pages/message";
@@ -60,40 +60,9 @@ body {
         }
     }
 
-    &#settings {
-        
-        .main-screen__content {
-            display: none;
-        }
-        & > header {
-            .logo {
-                display: none;
-            }
-            @include respond(mob) {
-                .setting-button.close {
-                    visibility: hidden;
-                }
-            }
-            @include respond(from-mob) {
-                column-gap: 3rem;
-                .page-title {
-                    margin-right: auto;
-                }
-            }
-        }
-        & > main {
-            @include respond(mob) {
-                margin-top: auto;
-            } 
-        }
-    }
-
     &#categories {
         padding: 6rem;
 
-        .setting-screen__content, .main-screen__content {
-            display: none;
-        } 
         & > header {
             .back, .page-title {
                 display: none;
@@ -116,10 +85,6 @@ body {
             padding: 5%;
         } 
               
-    }
-
-    @include respond(mob) {
-        // row-gap: 5rem;
     }
 
     @include respond(from-tabl) {
@@ -185,48 +150,6 @@ main {
 //====> FOOTER ====
 footer {
     width: 100%;
-   
-    .footer-creds {
-        display: flex;
-        justify-content: space-between;
-        align-items: flex-end;
-        width: 100%;
-        font-size: 1.6rem;
-        color: white;
-        #author {
-            color: white;
-            @include dTrans;
-            &:hover {
-                color: $accent;
-                text-decoration: underline;
-            }
-            @include respond(from-tabl) {
-                margin-left: auto;
-            }
-        }
-    
-        #rss {
-            display: block;
-            background: url('@svg/rs_school_logo.svg') no-repeat;
-            background-size: contain;
-            background-position: center center;
-            width: 6rem;
-            height: 3rem;
-            @include respond(mob) {
-                width: 6rem;
-                height: 3rem;
-            }
-            @include respond(from-tabl) {
-                width: 10rem;
-                height: 5rem;
-            }
-            
-        }
-
-        @include respond(from-tabl) {
-            column-gap: 8rem;
-        }
-    }
 
     .fixed-mobile-menu {
         box-sizing: border-box;
@@ -295,7 +218,48 @@ footer {
             display: none;
         }
     }
+}
 
+.footer-creds {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    width: 100%;
+    font-size: 1.6rem;
+    color: white;
+    #author {
+        color: white;
+        @include dTrans;
+        &:hover {
+            color: $accent;
+            text-decoration: underline;
+        }
+        @include respond(from-tabl) {
+            margin-left: auto;
+        }
+    }
+
+    #rss {
+        display: block;
+        background: url('@svg/rs_school_logo.svg') no-repeat;
+        background-size: contain;
+        background-position: center center;
+        width: 6rem;
+        height: 3rem;
+        @include respond(mob) {
+            width: 6rem;
+            height: 3rem;
+        }
+        @include respond(from-tabl) {
+            width: 10rem;
+            height: 5rem;
+        }
+        
+    }
+
+    @include respond(from-tabl) {
+        column-gap: 8rem;
+    }
 }
 
 //==== LOGO ====
