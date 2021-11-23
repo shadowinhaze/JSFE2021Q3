@@ -1,4 +1,5 @@
 import Message from '../components/message';
+import Sound from '../components/sound';
 
 export default class AuthorGame {
     static vars = {
@@ -49,9 +50,13 @@ export default class AuthorGame {
                     quastionButton.classList.add('right');
                     AuthorGame.setPaginationDotStatus('right');
                     if (AuthorGame.gameVars.gameScore.length < AuthorGame.gameVars.gameCollection.length) {
+                        Sound.setTrack(Sound.tracks.right)
+                        Sound.play();
                         Message.setMessageText(Message.vars.rightMessage);
                         Message.genNextButton();
                     } else {
+                        Sound.setTrack(Sound.tracks.end)
+                        Sound.play();
                         AuthorGame.saveScore();
                         Message.setMessageText(Message.vars.endGameMessage);
                         Message.showResult();
@@ -61,9 +66,13 @@ export default class AuthorGame {
                     quastionButton.classList.add('wrong');
                     AuthorGame.setPaginationDotStatus('wrong');
                     if (AuthorGame.gameVars.gameScore.length < AuthorGame.gameVars.gameCollection.length) {
+                        Sound.setTrack(Sound.tracks.wrong)
+                        Sound.play();
                         Message.setMessageText(Message.vars.wrongMessage);
                         Message.genNextButton();
                     } else {
+                        Sound.setTrack(Sound.tracks.end)
+                        Sound.play();
                         AuthorGame.saveScore();
                         Message.setMessageText(Message.vars.endGameMessage);
                         Message.showResult();
@@ -170,8 +179,9 @@ export default class AuthorGame {
     static saveScore() {
         let score = JSON.parse(localStorage.accountScore);
         let activeCatNum = JSON.parse(localStorage.activeCat).index;
-        if (score.length === 0) score.push ({ category: activeCatNum, score: AuthorGame.gameVars.gameScore })
+        if (score.length === 0 || !score.some(item => item.category === activeCatNum)) score.push({ category: activeCatNum, score: AuthorGame.gameVars.gameScore })
         score = score.map(item => {
+            console.log(item)
             return (item.category === activeCatNum) ? { category: activeCatNum, score: AuthorGame.gameVars.gameScore } : item;
         })
         localStorage.accountScore = JSON.stringify(score)

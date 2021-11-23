@@ -85,8 +85,8 @@ module.exports = {
         new CopyWebpackPlugin({
             patterns: [
                 {
-                    from: path.resolve(__dirname, 'src/assets/img/examp'),
-                    to: path.resolve(__dirname, 'art-quiz/assets/img/examp')
+                    from: path.resolve(__dirname, 'src/assets/sounds'),
+                    to: path.resolve(__dirname, 'art-quiz/assets/sounds')
                 },
                 {
                     from: path.resolve(__dirname, 'src/pages/html'),

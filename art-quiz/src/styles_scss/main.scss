@@ -60,7 +60,7 @@ body {
         }
     }
 
-    &[data-page=setting-screen] {
+    &#settings {
         
         .main-screen__content {
             display: none;

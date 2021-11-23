@@ -47,7 +47,6 @@ export default class Score extends Screen {
 
         const catsContainer = document.querySelector('.category-collection');
         Score.entities.activeCollection.cat.forEach((item, index) => {
-            console.log(item)
             const catItem = document.createElement('div');
             if (results[index].result) {
                 catItem.classList.add('category-card'); 

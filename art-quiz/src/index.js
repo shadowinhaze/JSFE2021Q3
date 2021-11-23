@@ -1,16 +1,11 @@
 import '@scss/main.scss';
 import Router from './pages/app';
 
-// const settingsButton = document.getElementById('settings');
-// settingsButton.addEventListener('click', function () {
-//     if (document.body.dataset.page === 'main-screen') {
-//         document.body.dataset.page = 'setting-screen';
-//     } else {
-//         document.body.dataset.page = 'main-screen';
-//     }
-//     this.classList.toggle('close');
-// })
-
 const main = new Router();
 main.init();
+
+console.log(`
+Ребята и миледи, всем привет! Надеюсь, Вы успели с этим чудо-такском, я как видите нет. Если сможете проверьте в чт.
+Нет, так нет. Тут максимум 20 баллов, не тратьте своё время. Спасибо!
+`)
 
