@@ -70,10 +70,17 @@
                             width: 50%;
                         }
                     }
-                    &.timer-control-item{
+                    &.timer-control-item {
                         align-items: center;
                         column-gap: 1.6rem;
                     }
+
+                    &.timer-quant-item {
+                        &.hidden {
+                            visibility: hidden;
+                        }
+                    }
+
                     &.setting-checkpoint {
                         column-gap: 1.6rem;
                         flex-wrap: nowrap;
@@ -86,6 +93,7 @@
                         }
         
                     }
+                    
                     @include respond(mob) {
                         justify-content: center;
                         .setting-item-title {

@@ -385,6 +385,10 @@ button, a {
                 color: white;
             }
         }
+        &:active {
+            background: $accent;
+            border-color: $accent;
+        }
     }
 
     &.header-button {
@@ -436,6 +440,7 @@ button, a {
         font-size: 3.5rem;
         font-weight: 500;
         line-height: 0;
+        transition: none;
         &:hover {
             background: $accent;
         }
@@ -466,6 +471,7 @@ button, a {
         cursor: pointer;
         color: $black;
     }
+
 }
 
 //==== INPUTS ====

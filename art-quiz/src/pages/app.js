@@ -66,14 +66,14 @@ export default class App {
         }
     }
 
-    static addMoveContorol() {
-        const catItems = document.querySelectorAll('.category-card');
-        catItems.forEach(catItem => {
-            catItem.addEventListener('click', () => {
-                App.renderNewPage(ScreenIds.oneAuthorGame)
-            })
-        })
-    }
+    // static addMoveContorol() {
+    //     const catItems = document.querySelectorAll('.category-card');
+    //     catItems.forEach(catItem => {
+    //         catItem.addEventListener('click', () => {
+    //             App.renderNewPage(ScreenIds.oneAuthorGame)
+    //         })
+    //     })
+    // }
 
     enableRouter() {
         const hash = window.location.hash.slice(1);
