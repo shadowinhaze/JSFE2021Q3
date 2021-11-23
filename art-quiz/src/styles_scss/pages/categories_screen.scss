@@ -128,19 +128,12 @@
             }
         }
 
-
         @include respond(tabl) {
             grid-template-columns: repeat(2, 1fr);
         }
 
-        @media only screen and (min-width: 768px) and (max-width: 1440px) {
-            grid-template-columns: repeat(auto-fill, minmax(20rem, 1fr));
+        @include respond(from-tabl) {
+            grid-template-columns: repeat(auto-fill, minmax(19rem, 1fr));
         }
-
-        @include respond(from-desk) {
-            grid-template-columns: repeat(6, minmax(20rem, 1fr));
-        }
-
-
     }
 }
