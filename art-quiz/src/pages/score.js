@@ -33,7 +33,7 @@ export default class Score extends Screen {
     }
 
     static getAccountScore() {
-        return JSON.parse(localStorage.accountScore);
+        return JSON.parse(localStorage.accountScore)[localStorage.mode];
     }
 
     async genCatItems() {
