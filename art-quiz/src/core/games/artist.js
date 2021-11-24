@@ -38,15 +38,15 @@ export default class AuthorGame {
         let answerButtons = [];
         arr = AuthorGame.shuffle(arr);
         for (let i = 0; i < arr.length; i++) {
-            const quastionButton = document.createElement('button');
-            quastionButton.classList.add('default-button', 'answer-button');
-            quastionButton.innerText = arr[i];
-            quastionButton.dataset.author = arr[i];
+            const questionButton = document.createElement('button');
+            questionButton.classList.add('default-button', 'answer-button');
+            questionButton.innerText = arr[i];
+            questionButton.dataset.author = arr[i];
             
-            quastionButton.addEventListener('click', function() {
-                if (AuthorGame.checkAnswer(quastionButton.dataset.author)) {
+            questionButton.addEventListener('click', function() {
+                if (AuthorGame.checkAnswer(questionButton.dataset.author)) {
                     AuthorGame.gameVars.gameScore.push({ round: AuthorGame.gameVars.activeRound, result: 1});
-                    quastionButton.classList.add('right');
+                    questionButton.classList.add('right');
                     AuthorGame.setPaginationDotStatus('right');
                     if (AuthorGame.gameVars.gameScore.length < AuthorGame.gameVars.gameCollection.length) {
                         Timer.params.stop = true;
@@ -62,7 +62,7 @@ export default class AuthorGame {
                     }
                 } else {
                     AuthorGame.gameVars.gameScore.push({ round: AuthorGame.gameVars.activeRound, result: 0});
-                    quastionButton.classList.add('wrong');
+                    questionButton.classList.add('wrong');
                     AuthorGame.setPaginationDotStatus('wrong');
                     if (AuthorGame.gameVars.gameScore.length < AuthorGame.gameVars.gameCollection.length) {
                         Timer.params.stop = true;
@@ -79,7 +79,7 @@ export default class AuthorGame {
                 }
             })
 
-            answerButtons.push(quastionButton)
+            answerButtons.push(questionButton)
         }
         return answerButtons;
     }
@@ -182,14 +182,18 @@ export default class AuthorGame {
     }
 
     static saveScore() {
-        let score = JSON.parse(localStorage.accountScore);
-        let activeCatNum = JSON.parse(localStorage.activeCat).index;
-        if (score.length === 0 || !score.some(item => item.category === activeCatNum)) score.push({ category: activeCatNum, score: AuthorGame.gameVars.gameScore })
-        score = score.map(item => {
-            console.log(item)
+        let data = JSON.parse(localStorage.accountScore)
+        const activeCatNum = JSON.parse(localStorage.activeCat).index;
+
+        if (data.artist.length === 0 || !data.artist.some(item => item.category === activeCatNum)) {
+            data.artist.push({ category: activeCatNum, score: AuthorGame.gameVars.gameScore })
+        }
+
+        data.artist = data.artist.map(item => {
             return (item.category === activeCatNum) ? { category: activeCatNum, score: AuthorGame.gameVars.gameScore } : item;
         })
-        localStorage.accountScore = JSON.stringify(score)
+
+        localStorage.accountScore = JSON.stringify(data)
     }
 
     static setQuestion() {

@@ -4,7 +4,7 @@ export default class Sound {
     static tracks = {
         click: './assets/sounds/click.wav',
         right: './assets/sounds/correctanswer.mp3',
-        wrong: './assets/sounds/wronganswer.mp3',
+        fail: './assets/sounds/wronganswer.mp3',
         end: './assets/sounds/endround.mp3',
     }
     

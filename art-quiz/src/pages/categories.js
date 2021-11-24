@@ -24,7 +24,11 @@ export default class Categories extends Screen {
         try {
             const response = await fetch(Categories.vars.dbUrl);
             const data = await response.json();
-            Categories.genCatsList(data.collection, 10, [0, 12]);
+            if (localStorage.mode === 'artist') {
+                Categories.genCatsList(data.collection, 10, [0, 12]);
+            } else {
+                Categories.genCatsList(data.collection, 10, [12]);
+            }
         } catch (err) {
             console.warn('Something went wrong.', err);
         }    
@@ -54,13 +58,13 @@ export default class Categories extends Screen {
     }
 
     static getAccountScore() {
-        return (localStorage.accountScore) ? JSON.parse(localStorage.accountScore) : []; 
+        return JSON.parse(localStorage.accountScore); 
     }
     
     async genCatItems() {
         await Categories.getCatCovers();
         const catsContainer = document.querySelector('.category-collection');
-        const score = Categories.getAccountScore();
+        const score = Categories.getAccountScore()[localStorage.mode];
         const playedCats = score.map(cat => {
             const result = cat.score.reduce((total, e) => total + e.result, 0);
             return { category: cat.category, result: result }

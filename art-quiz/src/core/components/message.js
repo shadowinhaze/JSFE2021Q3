@@ -1,14 +1,10 @@
-import OAG from '../games/one_author';
+import OAG from '../games/artist';
+import PG from '../games/pictures'
 import Timer from './timer';
 import endCongr from '@svg/end-game.svg'
 
 export default class Message {
     static vars = {
-        next: 'next',
-        confirm: 'confirm',
-        rightMessage: 'You are right!',
-        wrongMessage: 'You are wrong :(',
-        endGameMessage: 'Hurra! Finish!',
         dbUrlForRecImg: 'https://raw.githubusercontent.com/shadowinhaze/image-data/master/img'
     }
 
@@ -34,18 +30,37 @@ export default class Message {
 
         buttonNext.classList.add('default-button', 'dark', 'next');
         buttonNext.innerText = 'Next';
+        
+        const action = (activeRound, game) => {
 
-        buttonNext.addEventListener('click', () => {
-            if (OAG.gameVars.activeRound < 10) {
-                OAG.gameVars.activeRound += 1
-            }
-            Timer.params.stop = false;
-            Timer.params.time = Timer.params.allTime;
-            Timer.showTimerTime();
-            OAG.setQuestion();
-            OAG.setPaginationDotStatus('active');
-            Message.container.classList.toggle('visible');
-        });
+        }
+
+        if (localStorage.mode === 'artist') {
+            buttonNext.addEventListener('click', () => {
+                if (OAG.gameVars.activeRound < 10) {
+                    OAG.gameVars.activeRound += 1
+                }
+                Timer.params.stop = false;
+                Timer.params.time = Timer.params.allTime;
+                Timer.showTimerTime();
+                OAG.setQuestion();
+                OAG.setPaginationDotStatus('active');
+                Message.container.classList.toggle('visible');
+            });
+        } else {
+            buttonNext.addEventListener('click', () => {
+                if (PG.params.activeRound < 10) {
+                    PG.params.activeRound += 1
+                }
+                Timer.params.stop = false;
+                Timer.params.time = Timer.params.allTime;
+                Timer.showTimerTime();
+                PG.setQuestion();
+                PG.setPaginationDotStatus('active');
+                Message.container.classList.toggle('visible');
+            });
+        }
+        
         if (!buttonContainer.hasChildNodes()) {
             buttonContainer.append(buttonNext);
         }
@@ -54,7 +69,13 @@ export default class Message {
     static showResult() {
         const messContainer = Message.container.querySelector('.message__content');
         messContainer.innerHTML = '';
-        const result = OAG.gameVars.gameScore.reduce((total, item) => total + item.result, 0);
+        const count = (arr) => arr.reduce((total, item) => total + item.result, 0)
+        let result = 0;
+        if (localStorage.mode === 'artist') {
+            result = count(OAG.gameVars.gameScore)
+        } else {
+            result = count(PG.params.gameScore)
+        }
         messContainer.innerHTML = `
         <div class="message-layout end" style="background-image: url(${endCongr});"></div>
         <h3 class="message-picture-name message__content__h">Congratulations!</h3>
@@ -131,9 +152,18 @@ export default class Message {
             Message.container = document.createElement('div');
             Message.container.classList.add('message');
         }
-        const roundItem = OAG.gameVars.gameCollection[OAG.gameVars.activeRound]
-        const coverUrl = await Message.getMessageCover(roundItem.imageNum);
 
+        let roundItem = null;
+        let coverUrl = null;
+
+        if (localStorage.mode === 'artist') {
+            roundItem = OAG.gameVars.gameCollection[OAG.gameVars.activeRound]
+            coverUrl = await Message.getMessageCover(roundItem.imageNum);
+        } else {
+            roundItem = PG.params.gameCollection[PG.params.activeRound]
+            coverUrl = await Message.getMessageCover(roundItem.imageNum);
+        }
+        
         Message.container.innerHTML = `
         <div class="message-container">
             <div class="message__content">

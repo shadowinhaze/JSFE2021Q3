@@ -1,7 +1,7 @@
 import MainScreen from './main';
 import HomeButtons from '../core/components/homebuttons';
 import CatScreen from './categories';
-import OneAuthorGameScreen from './game_author';
+import OneAuthorGameScreen from './game';
 import Score from './score';
 import Settings from '../core/components/settings';
 import Sound from '../core/components/sound';
@@ -83,8 +83,11 @@ export default class App {
 
     init() {
         App.enableRouter();
+        if (!localStorage.mode) {
+            localStorage.mode = 'artist'
+        }
         if (!localStorage.accountScore) {
-            localStorage.accountScore = JSON.stringify([]);
+            localStorage.accountScore = JSON.stringify({artist: [], pictures: []});
         }
     }
 }

@@ -165,3 +165,30 @@
         }
     }
 }
+
+.pictures-game__content {
+    display: grid;
+    grid-template-rows: 10% 90%;
+    row-gap: 2.5rem;
+    width: 100%;
+    .answer-block {
+        width: 100%;
+        height: 100%;
+        display: grid;
+        grid-template-rows: repeat(2, minmax(auto, 30rem));
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem 1.2rem;
+        .picture-button {
+            border-radius: 2rem;
+            background-color: rgb(34, 34, 34) !important;
+            &:hover {
+                cursor: pointer;
+            }
+        }
+    }
+
+    @include respond(from-tabl) {
+        max-width: 82.5rem;
+        
+    }
+}

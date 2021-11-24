@@ -2,6 +2,7 @@
     position: fixed;
     height: 100%;
     width: 100%;
+    top: 0;
 
     display: flex;
     visibility: hidden;
@@ -62,6 +63,7 @@
 
             .message-author {
                 @include mobSize;
+                color: $black;
                 font-weight: 300;
             }
 

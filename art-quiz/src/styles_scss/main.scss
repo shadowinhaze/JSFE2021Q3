@@ -3,7 +3,7 @@
 @import "./pages/main_screen";
 @import "./pages/setting";
 @import "./pages/categories_screen";
-@import "./pages/game_author";
+@import "./pages/game";
 @import "./pages/message";
 
 
@@ -575,7 +575,7 @@ button, a {
     }
 }
 
-.main-quastion {
+.main-question {
     @include dFont;
     font-weight: 500;
     @include respond(mob) {
