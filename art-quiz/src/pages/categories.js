@@ -1,6 +1,7 @@
 import Screen from '../core/templates/screen';
 import { ScreenIds } from './app';
-import Sound from '../core/components/sound'
+import Sound from '../core/components/sound';
+import Loader from '../core/components/loader';
 
 export default class Categories extends Screen {
     static vars = {
@@ -54,6 +55,7 @@ export default class Categories extends Screen {
         for (let i = 0; i < Categories.entities.cats.length; i++) {
             const cover = await Categories.genCatImage(Categories.entities.cats[i][0].imageNum)
             Categories.entities.covers.push(cover);
+            if (Categories.entities.covers.length === Categories.entities.cats.length) Loader.endLoading();
         }
     }
 
@@ -103,7 +105,7 @@ export default class Categories extends Screen {
                 playAgainButton.innerHTML = '<span></span> Play again';
                 playAgainButton.addEventListener('click', (e) => {
                     localStorage.activeCat = JSON.stringify({ index, cat });
-                    window.location.hash = `#${ScreenIds.oneAuthorGame}`
+                    window.location.hash = `#${ScreenIds.game}`
                     location.reload();
                     e.stopPropagation()
                 })
@@ -117,7 +119,7 @@ export default class Categories extends Screen {
                 `
                 catItem.addEventListener('click', () => {
                     localStorage.activeCat = JSON.stringify({ index, cat });
-                    window.location.hash = `#${ScreenIds.oneAuthorGame}`
+                    window.location.hash = `#${ScreenIds.game}`
                     location.reload();
                 })
             }

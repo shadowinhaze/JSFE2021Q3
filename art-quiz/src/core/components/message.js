@@ -97,12 +97,18 @@ export default class Message {
     static genHomeButton() {
         const buttonContainer = Message.container.querySelector('.button-block');
         const buttonHome = document.createElement('button');
+        const buttonRepeat = document.createElement('button');
         buttonHome.classList.add('default-button', 'dark', 'home');
+        buttonRepeat.classList.add('default-button', 'dark', 'repeat');
         buttonHome.innerText = 'Home';
+        buttonRepeat.innerText = 'Try again';
         buttonHome.addEventListener('click', () => {
             window.location.hash = '#main'
         })
-        buttonContainer.append(buttonHome);
+        buttonRepeat.addEventListener('click', () => {
+            location.reload();
+        })
+        buttonContainer.append(buttonHome, buttonRepeat);
     }
 
     static addConfirmButtons() {

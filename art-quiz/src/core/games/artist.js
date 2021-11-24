@@ -1,6 +1,7 @@
 import Message from '../components/message';
 import Timer from '../components/timer';
 import Sound from '../components/sound';
+import Loader from '../components/loader';
 
 export default class AuthorGame {
     static vars = {
@@ -43,42 +44,40 @@ export default class AuthorGame {
             questionButton.innerText = arr[i];
             questionButton.dataset.author = arr[i];
             
-            questionButton.addEventListener('click', function() {
-                if (AuthorGame.checkAnswer(questionButton.dataset.author)) {
+            const setRound = (mode) => {
+                if (mode === 'right') {
                     AuthorGame.gameVars.gameScore.push({ round: AuthorGame.gameVars.activeRound, result: 1});
-                    questionButton.classList.add('right');
-                    AuthorGame.setPaginationDotStatus('right');
-                    if (AuthorGame.gameVars.gameScore.length < AuthorGame.gameVars.gameCollection.length) {
-                        Timer.params.stop = true;
-                        Sound.setTrack(Sound.tracks.right)
-                        Sound.play();
-                        Message.genNewMessage(Message.requests.right);
-                    } else {
-                        Timer.params.stop = true;
-                        Sound.setTrack(Sound.tracks.end)
-                        Sound.play();
-                        AuthorGame.saveScore();
-                        Message.genNewMessage(Message.requests.end);
-                    }
                 } else {
                     AuthorGame.gameVars.gameScore.push({ round: AuthorGame.gameVars.activeRound, result: 0});
-                    questionButton.classList.add('wrong');
-                    AuthorGame.setPaginationDotStatus('wrong');
-                    if (AuthorGame.gameVars.gameScore.length < AuthorGame.gameVars.gameCollection.length) {
-                        Timer.params.stop = true;
-                        Sound.setTrack(Sound.tracks.wrong)
-                        Sound.play();
-                        Message.genNewMessage(Message.requests.fail)
-                    } else {
-                        Timer.params.stop = true;
-                        Sound.setTrack(Sound.tracks.end)
-                        Sound.play();
-                        AuthorGame.saveScore();
-                        Message.genNewMessage(Message.requests.end);
-                    }
                 }
-            })
+                questionButton.classList.add(mode);
+                AuthorGame.setPaginationDotStatus(mode);
+            }
 
+            const nextGame = (mode) => {
+                Timer.params.stop = true;
+                Sound.setTrack(Sound.tracks[mode])
+                Sound.play();
+                Message.genNewMessage(Message.requests[mode])
+            }
+
+            const endGame = () => {
+                Timer.params.stop = true;
+                Sound.setTrack(Sound.tracks.end)
+                Sound.play();
+                AuthorGame.saveScore();
+                Message.genNewMessage(Message.requests.end);
+            }
+
+            const action = (mode) => {
+                setRound(mode)
+                const lengthChecker = AuthorGame.gameVars.gameScore.length < AuthorGame.gameVars.gameCollection.length;
+                lengthChecker ? nextGame(mode) : endGame()
+            }
+
+            questionButton.addEventListener('click', () => {
+                AuthorGame.checkAnswer(questionButton.dataset.author) ? action('right') : action('fail');
+            })
             answerButtons.push(questionButton)
         }
         return answerButtons;
@@ -96,14 +95,14 @@ export default class AuthorGame {
         for (let i = 0; i < num; i++) {
             const pagDot = document.createElement('div');
             pagDot.classList.add('pagination-dot');
-            pagDot.addEventListener('click', () => {
-                if (pagDot.classList.contains('active') || pagDot.classList.contains('wrong')) {
-                    return;
-                }
-                AuthorGame.gameVars.activeRound = i;
-                AuthorGame.setPaginationDotStatus('active');
-                AuthorGame.setQuestion();
-            })
+            // pagDot.addEventListener('click', () => {
+            //     if (pagDot.classList.contains('active') || pagDot.classList.contains('wrong')) {
+            //         return;
+            //     }
+            //     AuthorGame.gameVars.activeRound = i;
+            //     AuthorGame.setPaginationDotStatus('active');
+            //     AuthorGame.setQuestion();
+            // })
             paginationContainer.append(pagDot);
         }
     }
@@ -119,8 +118,8 @@ export default class AuthorGame {
                     case 'right':
                         item.classList.replace('active', 'right')
                         break;
-                    case 'wrong':
-                        item.classList.replace('active', 'wrong')
+                    case 'fail':
+                        item.classList.replace('active', 'fail')
                         break;
                 }
             } else {
@@ -174,6 +173,7 @@ export default class AuthorGame {
         for (let i = 0; i < AuthorGame.gameVars.gameCollection.length; i++) {
             const item = await AuthorGame.genQuestion(i)
             AuthorGame.gameVars.allRoundsGames.push(item)
+            if (AuthorGame.gameVars.allRoundsGames.length === AuthorGame.gameVars.gameCollection.length) Loader.endLoading()
         }
     }
 

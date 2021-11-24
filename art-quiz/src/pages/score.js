@@ -1,4 +1,5 @@
 import Screen from '../core/templates/screen';
+import Loader from '../core/components/loader';
 
 export default class Score extends Screen {
     static vars = {
@@ -29,6 +30,7 @@ export default class Score extends Screen {
         for (let i = 0; i < Score.entities.activeCollection.cat.length; i++) {
             const cover = await Score.getItemImageUrl(Score.entities.activeCollection.cat[i].imageNum)
             Score.entities.covers.push(cover);
+            if (Score.entities.covers.length === Score.entities.activeCollection.cat.length) Loader.endLoading();
         }
     }
 

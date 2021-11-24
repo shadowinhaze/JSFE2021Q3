@@ -113,17 +113,17 @@
                     background: $green;
                 }
 
-                &.wrong {
+                &.fail {
                     background: $red;
                 }
                 
-                &:hover {
-                    cursor: pointer;
-                    background: #dbdbdb;
-                    &.done {
-                        background: $accent;
-                    }
-                }
+                // &:hover {
+                //     cursor: pointer;
+                //     background: #dbdbdb;
+                //     &.done {
+                //         background: $accent;
+                //     }
+                // }
             }
 
             @include respond(mob) {
@@ -168,7 +168,7 @@
 
 .pictures-game__content {
     display: grid;
-    grid-template-rows: 10% 90%;
+    grid-template-rows: 10% 80% 10%;
     row-gap: 2.5rem;
     width: 100%;
     .answer-block {
@@ -179,11 +179,78 @@
         grid-template-columns: repeat(2, 1fr);
         gap: 1rem 1.2rem;
         .picture-button {
+            position: relative;
             border-radius: 2rem;
             background-color: rgb(34, 34, 34) !important;
+            &::after {
+                content: '';
+                position: absolute;
+                height: 100%;
+                width: 100%;
+                top: 0;
+                left: 0;
+                background: rgba(#ffffff, 0);
+                border-radius: 2rem;
+                transition: background .3s ease;
+            }
             &:hover {
                 cursor: pointer;
+                &:after {
+                    background: rgba(#ffffff, .3);
+                }
             }
+            &.right {
+                &::after {
+                    background: rgba($green, .8);
+                }
+            }
+            &.fail {
+                &::after {
+                    background: rgba($red, .8);
+                }
+            }
+        }
+    }
+
+    .question-pagination {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        column-gap: 1.2rem;
+
+        .pagination-dot {
+            height: 1.5rem;
+            width: 1.5rem;
+            background: $grey;
+            border-radius: 50%;
+            @include dTrans;
+            &.active {
+                background: $accent;
+                // &:hover {
+                //     background: $accent;
+                //     cursor: none;
+                // }
+            }
+
+            &.right {
+                background: $green;
+            }
+
+            &.fail {
+                background: $red;
+            }
+            
+            // &:hover {
+            //     cursor: pointer;
+            //     background: #dbdbdb;
+            //     &.done {
+            //         background: $accent;
+            //     }
+            // }
+        }
+
+        @include respond(mob) {
+            display: none;
         }
     }
 

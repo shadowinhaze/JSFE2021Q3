@@ -1,15 +1,16 @@
 import MainScreen from './main';
 import HomeButtons from '../core/components/homebuttons';
 import CatScreen from './categories';
-import OneAuthorGameScreen from './game';
+import gameScreen from './game';
 import Score from './score';
 import Settings from '../core/components/settings';
 import Sound from '../core/components/sound';
+import Loader from '../core/components/loader';
 
 export const ScreenIds = {
     main: 'main',
     cats: 'categories',
-    oneAuthorGame: 'one-author-game',
+    game: 'game',
     score: 'score',
 }
 
@@ -27,8 +28,8 @@ export default class App {
             case ScreenIds.cats:
                 screen = new CatScreen(pageID);
                 break;
-            case ScreenIds.oneAuthorGame:
-                screen = new OneAuthorGameScreen(pageID);
+            case ScreenIds.game:
+                screen = new gameScreen(pageID);
                 break;
             case ScreenIds.score:
                 screen = new Score(pageID)
@@ -38,6 +39,7 @@ export default class App {
         if (screen) {
             screen.render().then(templateOfThePage => {
                 App.container.innerHTML = templateOfThePage;
+                Loader.startLoading();
                 const mainBlock = App.container.querySelector('main');
                 switch (pageID) {
                     case ScreenIds.main:
@@ -45,8 +47,9 @@ export default class App {
                         Sound.setAudioVar();
                         Settings.render();
                         mainBlock.append(Settings.box);
+                        Loader.endLoading();
                         break;
-                    case ScreenIds.oneAuthorGame:
+                    case ScreenIds.game:
                         screen.start();
                         Sound.setAudioVar();
                         break;

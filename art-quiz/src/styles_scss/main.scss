@@ -1,8 +1,9 @@
 @import "~normalize.css";
 @import "./add";
-@import "./pages/main_screen";
+@import "./pages/home";
+@import "./pages/loader";
 @import "./pages/setting";
-@import "./pages/categories_screen";
+@import "./pages/categories";
 @import "./pages/game";
 @import "./pages/message";
 
@@ -460,7 +461,7 @@ button, a {
             border-color: $green;
             color: $black;
         }
-        &.wrong {
+        &.fail {
             background: $red;
             border-color: $red;
             color: $black;

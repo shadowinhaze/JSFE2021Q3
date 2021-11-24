@@ -1,6 +1,7 @@
 import Message from '../components/message';
 import Timer from '../components/timer';
 import Sound from '../components/sound';
+import Loader from '../components/loader';
 
 export default class PicturesGame {
     static urls = {
@@ -33,22 +34,35 @@ export default class PicturesGame {
         })
     }
 
-    // static genPagination(num) {
-    //     const paginationContainer = document.querySelector('.main-quastion__pagination');
-    //     for (let i = 0; i < num; i++) {
-    //         const pagDot = document.createElement('div');
-    //         pagDot.classList.add('pagination-dot');
-    //         pagDot.addEventListener('click', () => {
-    //             if (pagDot.classList.contains('active') || pagDot.classList.contains('wrong')) {
-    //                 return;
-    //             }
-    //             PicturesGame.params.activeRound = i;
-    //             PicturesGame.setPaginationDotStatus('active');
-    //             PicturesGame.setQuestion();
-    //         })
-    //         paginationContainer.append(pagDot);
-    //     }
-    // }
+    static genPagination(num) {
+        const paginationContainer = document.querySelector('.question-pagination');
+        for (let i = 0; i < num; i++) {
+            const pagDot = document.createElement('div');
+            pagDot.classList.add('pagination-dot');
+            paginationContainer.append(pagDot);
+        }
+    }
+
+    static setPaginationDotStatus(status) {
+        const pagintaionDots = document.querySelectorAll('.pagination-dot');
+        pagintaionDots.forEach((item, index) => {
+            if (index === PicturesGame.params.activeRound) {
+                switch (status) {
+                    case 'active':
+                        item.classList.add(status)
+                        break;
+                    case 'right':
+                        item.classList.replace('active', 'right')
+                        break;
+                    case 'fail':
+                        item.classList.replace('active', 'fail')
+                        break;
+                }
+            } else {
+                item.classList.remove('active')
+            }
+        })
+    }
 
     static shuffle(arr) {
         for (let i = arr.length - 1; i > 0; i--) {
@@ -87,8 +101,8 @@ export default class PicturesGame {
                     case 'right':
                         item.classList.replace('active', 'right')
                         break;
-                    case 'wrong':
-                        item.classList.replace('active', 'wrong')
+                    case 'fail':
+                        item.classList.replace('active', 'fail')
                         break;
                 }
             } else {
@@ -153,6 +167,7 @@ export default class PicturesGame {
                     PicturesGame.params.gameScore.push({ round: PicturesGame.params.activeRound, result: 0});
                 }
                 questionButton.classList.add(mode);
+                PicturesGame.setPaginationDotStatus(mode);
             }
 
             const nextGame = (mode) => {
@@ -163,7 +178,6 @@ export default class PicturesGame {
             }
 
             const endGame = () => {
-                console.log('called')
                 Timer.params.stop = true;
                 Sound.setTrack(Sound.tracks.end)
                 Sound.play();
@@ -171,27 +185,14 @@ export default class PicturesGame {
                 Message.genNewMessage(Message.requests.end);
             }
 
+            const action = (mode) => {
+                setRound(mode)
+                const lengthChecker = PicturesGame.params.gameScore.length < PicturesGame.params.gameCollection.length;
+                lengthChecker ? nextGame(mode) : endGame()
+            }
+
             questionButton.addEventListener('click', () => {
-                
-                if (PicturesGame.checkAnswer(questionButton.dataset.author)) {
-                    setRound('right')
-                    // PicturesGame.setPaginationDotStatus('right');
-                    if (PicturesGame.params.gameScore.length < PicturesGame.params.gameCollection.length) {
-                        nextGame('right')
-                    } else {
-                        endGame()
-                    }
-                    // lengthController ? nextGame('right') : endGame();
-                } else {
-                    setRound('fail')
-                    // PicturesGame.setPaginationDotStatus('wrong');
-                    if (PicturesGame.params.gameScore.length < PicturesGame.params.gameCollection.length) {
-                        nextGame('fail')
-                    } else {
-                        endGame()
-                    }
-                    // lengthController ? nextGame('fail') : endGame();
-                }
+                PicturesGame.checkAnswer(questionButton.dataset.author) ? action('right') : action('fail');
             })
             
             answers.push(questionButton)
@@ -212,6 +213,7 @@ export default class PicturesGame {
     static async setQuestion() {
         const author = PicturesGame.params.allRoundsGames[PicturesGame.params.activeRound].wanted;
         const answers = await PicturesGame.params.allRoundsGames[PicturesGame.params.activeRound].answers;
+        Loader.endLoading()
         const questionStr = document.querySelector('.main-question');
         const answersContainer = document.querySelector('.answer-block');
        
@@ -219,7 +221,6 @@ export default class PicturesGame {
         answersContainer.innerHTML = '';
 
         answers.forEach(item => answersContainer.append(item));
-        
         setTimeout(() => {
             Timer.startTimer();
         }, 400);
@@ -229,14 +230,13 @@ export default class PicturesGame {
         PicturesGame.getGameCollection();
         await PicturesGame.getDataFromDB();
         await PicturesGame.genAllRoundsGames();
-        
         PicturesGame.genCloseQuestion();
         
         Timer.genTimer();
 
         PicturesGame.setQuestion();
-        // PicturesGame.genPagination(10);
-        // PicturesGame.setPaginationDotStatus('active');
+        PicturesGame.genPagination(10);
+        PicturesGame.setPaginationDotStatus('active');
     }
 
 
