@@ -1,4 +1,5 @@
 import MainScreen from './main';
+import HomeButtons from '../core/components/homebuttons';
 import CatScreen from './categories';
 import OneAuthorGameScreen from './game_author';
 import Score from './score';
@@ -40,6 +41,7 @@ export default class App {
                 const mainBlock = App.container.querySelector('main');
                 switch (pageID) {
                     case ScreenIds.main:
+                        HomeButtons.genHomeButtons();
                         Sound.setAudioVar();
                         Settings.render();
                         mainBlock.append(Settings.box);
