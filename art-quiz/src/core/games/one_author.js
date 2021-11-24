@@ -1,4 +1,5 @@
 import Message from '../components/message';
+import Timer from '../components/timer';
 import Sound from '../components/sound';
 
 export default class AuthorGame {
@@ -43,39 +44,37 @@ export default class AuthorGame {
             quastionButton.dataset.author = arr[i];
             
             quastionButton.addEventListener('click', function() {
-                const message = document.querySelector('.message')
-                message.classList.toggle('visible');
                 if (AuthorGame.checkAnswer(quastionButton.dataset.author)) {
                     AuthorGame.gameVars.gameScore.push({ round: AuthorGame.gameVars.activeRound, result: 1});
                     quastionButton.classList.add('right');
                     AuthorGame.setPaginationDotStatus('right');
                     if (AuthorGame.gameVars.gameScore.length < AuthorGame.gameVars.gameCollection.length) {
+                        Timer.params.stop = true;
                         Sound.setTrack(Sound.tracks.right)
                         Sound.play();
-                        Message.setMessageText(Message.vars.rightMessage);
-                        Message.genNextButton();
+                        Message.genNewMessage(Message.requests.right);
                     } else {
+                        Timer.params.stop = true;
                         Sound.setTrack(Sound.tracks.end)
                         Sound.play();
                         AuthorGame.saveScore();
-                        Message.setMessageText(Message.vars.endGameMessage);
-                        Message.showResult();
+                        Message.genNewMessage(Message.requests.end);
                     }
                 } else {
                     AuthorGame.gameVars.gameScore.push({ round: AuthorGame.gameVars.activeRound, result: 0});
                     quastionButton.classList.add('wrong');
                     AuthorGame.setPaginationDotStatus('wrong');
                     if (AuthorGame.gameVars.gameScore.length < AuthorGame.gameVars.gameCollection.length) {
+                        Timer.params.stop = true;
                         Sound.setTrack(Sound.tracks.wrong)
                         Sound.play();
-                        Message.setMessageText(Message.vars.wrongMessage);
-                        Message.genNextButton();
+                        Message.genNewMessage(Message.requests.fail)
                     } else {
+                        Timer.params.stop = true;
                         Sound.setTrack(Sound.tracks.end)
                         Sound.play();
                         AuthorGame.saveScore();
-                        Message.setMessageText(Message.vars.endGameMessage);
-                        Message.showResult();
+                        Message.genNewMessage(Message.requests.end);
                     }
                 }
             })
@@ -83,6 +82,13 @@ export default class AuthorGame {
             answerButtons.push(quastionButton)
         }
         return answerButtons;
+    }
+
+    static genCloseQuestion() {
+        const closeButton = document.querySelector('.game-timer__close-game');
+        closeButton.addEventListener('click', () => {
+            Message.genNewMessage(Message.requests.stopGame)
+        })
     }
 
     static genPagination(num) {
@@ -151,8 +157,7 @@ export default class AuthorGame {
     }
 
     static genGameCollection() {
-        const collection = JSON.parse(localStorage.activeCat).cat
-        AuthorGame.gameVars.gameCollection = collection;
+        AuthorGame.gameVars.gameCollection = JSON.parse(localStorage.activeCat).cat
     }
 
     static async genQuestion(round) {
@@ -195,12 +200,18 @@ export default class AuthorGame {
         questionImg.src = imageUrl;
         questionAnswers.innerHTML = '';
         buttons.forEach(item => questionAnswers.prepend(item));
+        setTimeout(() => {
+            Timer.startTimer();
+        }, 400);
     }
 
     async render() {
         AuthorGame.genGameCollection();
         await AuthorGame.getDataFromDB();
         await AuthorGame.genAllRoundsGames();
+        
+        AuthorGame.genCloseQuestion();
+        Timer.genTimer();
 
         AuthorGame.setQuestion();
         AuthorGame.genPagination(10);

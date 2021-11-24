@@ -66,16 +66,7 @@ export default class App {
         }
     }
 
-    // static addMoveContorol() {
-    //     const catItems = document.querySelectorAll('.category-card');
-    //     catItems.forEach(catItem => {
-    //         catItem.addEventListener('click', () => {
-    //             App.renderNewPage(ScreenIds.oneAuthorGame)
-    //         })
-    //     })
-    // }
-
-    enableRouter() {
+    static enableRouter() {
         const hash = window.location.hash.slice(1);
         if (hash !== '') {
             App.renderNewPage(hash);
@@ -89,7 +80,7 @@ export default class App {
     }
 
     init() {
-        this.enableRouter();
+        App.enableRouter();
         if (!localStorage.accountScore) {
             localStorage.accountScore = JSON.stringify([]);
         }

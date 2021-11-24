@@ -132,7 +132,6 @@ export default class Settings {
         const defaultButton = document.querySelector('.def');
         const saveButton = document.querySelector('.save')
         
-
         defaultButton.addEventListener('click', () => {
             Settings.userSettings.volume = 0.5;
             Settings.userSettings.timer = false;

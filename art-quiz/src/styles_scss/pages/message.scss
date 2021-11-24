@@ -25,8 +25,51 @@
             min-height: 2rem;
             align-self: flex-end;
         }
-        .message__content__text {
-            text-align: center;
+        .message__content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            row-gap: 1rem;
+            .message-layout {
+                position: relative;
+                width: 100%;
+                aspect-ratio: 1;
+                background-size: cover;
+                border-radius: 2rem;
+                .fail, .right {
+                    box-sizing: border-box;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    font-size: 5rem;
+                    position: absolute;
+                    bottom: 5%;
+                    left: 5%;
+                    height: 15%;
+                    width: 15%;
+                    border-radius: 50%;
+                    background: $red;
+                    color: $black;
+                }
+                .right {
+                    background: $green;
+                }
+                &.end {
+                    background-size: contain;
+                }
+            }
+
+            .message-author {
+                @include mobSize;
+                font-weight: 300;
+            }
+
+            .message-result {
+                color: $black;
+                font-size: 4rem;
+                font-weight: 700;
+            }
         }
     }
 

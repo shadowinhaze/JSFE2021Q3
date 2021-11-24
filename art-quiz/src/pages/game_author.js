@@ -23,7 +23,7 @@ export default class OneAuthorGameScreen extends Screen {
         this.game = new Game();
         this.game.render();
 
-        this.gameMessage = new Message();
-        main.append(this.gameMessage.render());
+        // this.gameMessage = new Message();
+        // main.append(this.gameMessage.render());
     }
 }

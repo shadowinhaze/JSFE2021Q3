@@ -87,6 +87,7 @@ export default class Categories extends Screen {
                 catItem.addEventListener('click', () => {
                     localStorage.activeCat = JSON.stringify({ index, cat });
                     window.location.hash = `#${ScreenIds.score}`
+                    location.reload();
                 })
                 catItem.innerHTML = `
                 <div class="category-card__name">Part ${index + 1}</div>
@@ -99,6 +100,7 @@ export default class Categories extends Screen {
                 playAgainButton.addEventListener('click', (e) => {
                     localStorage.activeCat = JSON.stringify({ index, cat });
                     window.location.hash = `#${ScreenIds.oneAuthorGame}`
+                    location.reload();
                     e.stopPropagation()
                 })
                 catItem.append(playAgainButton)
@@ -112,6 +114,7 @@ export default class Categories extends Screen {
                 catItem.addEventListener('click', () => {
                     localStorage.activeCat = JSON.stringify({ index, cat });
                     window.location.hash = `#${ScreenIds.oneAuthorGame}`
+                    location.reload();
                 })
             }
             catsContainer.appendChild(catItem);
