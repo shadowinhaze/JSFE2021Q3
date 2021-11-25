@@ -91,7 +91,6 @@ export default class Message {
             Message.container.classList.remove('visible');
         })
         place.prepend(closeButton);
-        
     }
 
     static genHomeButton() {
@@ -127,6 +126,7 @@ export default class Message {
         })
 
         buttonYes.addEventListener('click', () => {
+            Timer.params.stop = true;
             window.location.hash = '#categories'
         })
 

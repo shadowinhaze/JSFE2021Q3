@@ -229,7 +229,6 @@ export default class PicturesGame {
         PicturesGame.getGameCollection();
         await PicturesGame.getDataFromDB();
         await PicturesGame.genAllRoundsGames();
-        Loader.endLoading()
         PicturesGame.genCloseQuestion();
         
         Timer.genTimer();
@@ -237,7 +236,6 @@ export default class PicturesGame {
         PicturesGame.setQuestion();
         PicturesGame.genPagination(10);
         PicturesGame.setPaginationDotStatus('active');
+        Loader.endLoading();
     }
-
-
 } 
