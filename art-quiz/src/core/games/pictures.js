@@ -213,7 +213,6 @@ export default class PicturesGame {
     static async setQuestion() {
         const author = PicturesGame.params.allRoundsGames[PicturesGame.params.activeRound].wanted;
         const answers = await PicturesGame.params.allRoundsGames[PicturesGame.params.activeRound].answers;
-        Loader.endLoading()
         const questionStr = document.querySelector('.main-question');
         const answersContainer = document.querySelector('.answer-block');
        
@@ -230,6 +229,7 @@ export default class PicturesGame {
         PicturesGame.getGameCollection();
         await PicturesGame.getDataFromDB();
         await PicturesGame.genAllRoundsGames();
+        Loader.endLoading()
         PicturesGame.genCloseQuestion();
         
         Timer.genTimer();
