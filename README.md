@@ -1,4 +1,5 @@
 # ART QUIZ
+![Card_Outline](https://user-images.githubusercontent.com/25500962/174681856-8d9aa39e-40e6-4dc2-9ed9-507104af4fc6.jpg)
 
 Do you want to shine with your knowledge of visual art? This little quizlet-format app will help you remember as much as possible.
 
