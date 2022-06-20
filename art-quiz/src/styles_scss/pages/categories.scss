@@ -1,0 +1,139 @@
+@mixin size {
+    @include respond(mob) {
+        font-size: 1.6rem;
+        line-height: 1.8rem;
+    }
+    @include respond(from-mob) {
+        font-size: 2rem;
+        line-height: 2.3rem;
+    }
+}
+
+.categories-screen__content {
+    width: 100%;
+    
+    .page-title {
+        width: 100%;
+        text-align: left;
+        margin-bottom: 5rem;
+    }
+
+    .category-collection {
+        display: grid;
+        margin-bottom: 15rem; 
+        gap: 3rem 2rem;
+        .category-card {
+            position: relative;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            row-gap: 2rem;
+
+            &__name {
+                @include size;
+                @include dTrans;
+            }
+
+            &__layout {
+                background: white;
+                width: 100%;
+                aspect-ratio: 1;
+        
+                border-radius: 2rem;
+                background-repeat: no-repeat;
+                background-size: cover;
+            }
+
+            &__progress {
+                @include size; 
+                @include dTrans;
+            }
+
+            &__play-again-badge {
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                width: 100%;
+                height: 0;
+                opacity: 0;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                background: $accent;
+                font-weight: 500;
+                @include size;
+                color: $black;
+                border-radius: 0 0 2rem 2rem;
+                @include dTrans;
+                span {
+                    height: 1.6rem;
+                    width: 1.6rem;
+                    background-image: url('@svg/icons/replay.svg');
+                    background-size: contain;
+                    margin-right: 1rem;
+                }
+            }
+
+            &__info-badge {
+                box-sizing: border-box;
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                width: 100%;
+                height: 0;
+                opacity: 0;
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: flex-start;
+                align-items: flex-end;
+                padding: 5%;
+                background: $accent;
+                font-weight: 500;
+                @include size;
+                color: $black;
+                border-radius: 2rem;
+                @include dTrans;
+                h3 {
+                    margin-bottom: 5%;
+                }
+            }
+
+            &.unplayed {
+                .category-card__layout {
+                    filter: grayscale(100%);
+                }
+            }
+
+            &:hover {
+                cursor: pointer;
+                .category-card__name, .category-card__progress {
+                    color: $accent;
+                }
+
+                .category-card__play-again-badge {
+                    height: 20%;
+                    opacity: 1;
+                }
+
+                .category-card__info-badge {
+                    height: 100%;
+                    opacity: 1;
+                }
+                
+                &.unplayed {
+                    .category-card__layout {
+                        filter: grayscale(50%);
+                    }
+                }
+            }
+        }
+
+        @include respond(tabl) {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        @include respond(from-tabl) {
+            grid-template-columns: repeat(auto-fill, minmax(19rem, 1fr));
+        }
+    }
+}

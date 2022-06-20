@@ -1,0 +1,43 @@
+
+<div class="settings__container">
+    <div class="settings__header">
+        <button class="header-button setting-button back"></button>
+        <h2 class="page-title">Settings</h2>
+        <button class="header-button setting-button close"></button>
+    </div>
+
+    <div class="settings__body">
+        <ul class="setting-items">
+            <li class="setting-item volume-control-item">
+                <h2 class="setting-item-title">Volume</h2>
+                <input type="range" id="volume" class="range-type-input" name="volume" min="0" max="100" step="1">
+                <button class="volume-control mute"></button>
+                <button class="volume-control full"></button>
+            </li>
+        
+            <li class="setting-item timer-control-item">
+                <h2 class="setting-item-title">Time game</h2>
+                <label class="default-label" for="time-switcher">Off</label>
+                <input class="switcher-type-input" type="checkbox" name="time-switcher">
+            </li>
+        
+            <li class="setting-item timer-quant-item hidden">
+                <h2 class="setting-item-title">Time to answer</h2>
+                <button class="timer-quant-button decr">-</button>
+                <input type="number" id="timer-quant" class="number-type-input" name="timer-quant" min="5" max="30" value="10" step="5">
+                <button class="timer-quant-button incr">+</button>
+            </li>
+        
+            <li class="setting-item setting-checkpoint">
+                <button class="default-button def">Default</button>
+                <button class="default-button save">Save</button>
+            </li>
+        </ul>
+    </div>
+
+    <div class="settings__footer footer-creds">
+        <a href="https://github.com/rolling-scopes-school" target="_blank" id="rss"></a>
+        <a href="https://github.com/shadowinhaze" target="_blank" id="author">@shadowinhaze</a>
+        <p>2021</p>
+    </div>
+</div>
